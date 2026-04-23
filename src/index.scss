@@ -1,13 +1,44 @@
 @use 'sass:color';
 @use 'sass:map';
-// dunkel töne 2f2d2a 2f2d2a 2c2521 282420
-$c_dark: #282420;
-$c_light: #ece9e6;
+// dunkel töne 2f2d2a 2f2d2a 2c2521 1A1A2E 322c23 282420 2c271f
+// Helle Palette (#ece9e6)
+$c_light_3: #f7f6f4; // heller 3
+$c_light_2: #f2f0ec; // heller 2
+$c_light_1: #edeae7; // heller 1
+$c_light:   #ece9e6; // basis
+$c_light_d1: #e1dbd0; // dunkler 1
+$c_light_d2: #d5cfc1; // dunkler 2
+$c_light_d3: #c9c2b3; // dunkler 3
+
+// Dunkle Palette (#2c271f)
+$c_dark_3: #3a3329; // heller 3
+$c_dark_2: #362f25; // heller 2
+$c_dark_1: #322b22; // heller 1
+$c_dark:   #2c271f; // basis
+$c_dark_d1: #241f18; // dunkler 1
+$c_dark_d2: #1d1913; // dunkler 2
+$c_dark_d3: #16130e; // dunkler 3
 
 :root {
   --primary: crimson;
   --foreground: #{$c_dark};
   --background: #{$c_light};
+  /* Helle Palette */
+  --c-light-3: #f7f6f4;
+  --c-light-2: #f2f0ec;
+  --c-light-1: #edeae7;
+  --c-light:   #ece9e6;
+  --c-light-d1: #e1dbd0;
+  --c-light-d2: #d5cfc1;
+  --c-light-d3: #c9c2b3;
+  /* Dunkle Palette */
+  --c-dark-3: #3a3329;
+  --c-dark-2: #362f25;
+  --c-dark-1: #322b22;
+  --c-dark:   #2c271f;
+  --c-dark-d1: #241f18;
+  --c-dark-d2: #1d1913;
+  --c-dark-d3: #16130e;
 }
 
 .dark {
@@ -20,7 +51,13 @@ body {
   margin: 0;
   overflow: hidden;
   background: var(--background);
-  color: var(--foreground);
+  color: var(--foregroun10d);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 img {

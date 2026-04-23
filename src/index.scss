@@ -1,0 +1,30 @@
+@use 'sass:color';
+@use 'sass:map';
+// dunkel töne 2f2d2a 2f2d2a 2c2521 282420
+$c_dark: #282420;
+$c_light: #ece9e6;
+
+:root {
+  --primary: crimson;
+  --foreground: #{$c_dark};
+  --background: #{$c_light};
+}
+
+.dark {
+  --primary: crimson;
+  --foreground: #{$c_light};
+  --background: #{$c_dark};
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

@@ -1,4 +1,3 @@
-import React from "react";
 import { PageWrapper } from "./PageWrapper";
 
 export default function Page1() {

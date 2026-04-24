@@ -1,4 +1,3 @@
-import React from "react";
 import { PageWrapper } from "../../pages/PageWrapper";
 import { AppBar, Toolbar, Typography, Box } from "@mui/material";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";

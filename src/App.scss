@@ -3,3 +3,30 @@
     outline-offset: 3px !important;
     z-index: 2;
 }
+
+.custom-scrollbar {
+    // scrollbar-width: thin;
+    // scrollbar-color: var(--background-d2) var(--background-2);
+    &::-webkit-scrollbar {
+        width: 8px;
+        background-color: var(--background-2);
+        border-radius: 30px;
+    }
+
+    &::-webkit-scrollbar-button {
+        display: none;
+        height: 0;
+    }
+
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-track-piece {
+        background: var(--background-2);
+        border-radius: 30px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--background-d3);
+        border: 2px solid var(--background-2);
+        border-radius: 30px;
+    }
+}

@@ -1,7 +1,7 @@
 // import React from 'react';
-import { AnimatedThemeToggler } from '../ui/animated-theme-toggler'
-import { DiaTextReveal } from "@/components/ui/dia-text-reveal"
-import { Box, Container, Grid, Typography } from '@mui/material'
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
+import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
+import { Box, Container, Grid, Typography } from "@mui/material";
 // import Colors from './colors'
 
 const Dev = () => {
@@ -15,8 +15,13 @@ const Dev = () => {
             justifyContent="flex-start"
             alignItems="center"
           >
-            <Typography variant="h6" component="h6" sx={{ fontWeight: 'bold' }}>
-              <DiaTextReveal text="4lpha" colors={["var(--primary)"]} duration={2} delay={0} />
+            <Typography variant="h6" component="h6" sx={{ fontWeight: "bold" }}>
+              <DiaTextReveal
+                text="4lpha"
+                colors={["var(--primary)"]}
+                duration={2}
+                delay={0}
+              />
             </Typography>
           </Grid>
           <Grid
@@ -29,10 +34,15 @@ const Dev = () => {
           </Grid>
         </Grid>
       </Container>
-    {/* <Colors /> */}
+      {/* <Colors /> */}
       <Container
         maxWidth="xl"
-        style={{ height: "75%", display: "flex", justifyContent: "center", alignItems: "center" }}
+        style={{
+          height: "75%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
         <Grid container spacing={4}>
           <Grid
@@ -49,6 +59,6 @@ const Dev = () => {
       </Container>
     </>
   );
-}
+};
 
 export default Dev;

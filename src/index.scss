@@ -21,37 +21,47 @@ $c_dark_d3: #16130e; // dunkler 3
 
 :root {
   --primary: crimson;
+  --primary-1: color-mix(in srgb, var(--primary) 80%, black 20%);
+  --primary-2: color-mix(in srgb, var(--primary) 60%, black 40%);
   --foreground: #{$c_dark};
+  --foreground-1: #{$c_dark_1};
+  --foreground-2: #{$c_dark_2};
+  --foreground-3: #{$c_dark_3};
+  --foreground-d1: #{$c_dark_d1};
+  --foreground-d2: #{$c_dark_d2};
+  --foreground-d3: #{$c_dark_d3};
   --background: #{$c_light};
-  /* Helle Palette */
-  --c-light-3: #f7f6f4;
-  --c-light-2: #f2f0ec;
-  --c-light-1: #edeae7;
-  --c-light:   #ece9e6;
-  --c-light-d1: #e1dbd0;
-  --c-light-d2: #d5cfc1;
-  --c-light-d3: #c9c2b3;
-  /* Dunkle Palette */
-  --c-dark-3: #3a3329;
-  --c-dark-2: #362f25;
-  --c-dark-1: #322b22;
-  --c-dark:   #2c271f;
-  --c-dark-d1: #241f18;
-  --c-dark-d2: #1d1913;
-  --c-dark-d3: #16130e;
+  --background-1: #{$c_light_1};
+  --background-2: #{$c_light_2};
+  --background-3: #{$c_light_3};
+  --background-d1: #{$c_light_d1};
+  --background-d2: #{$c_light_d2};
+  --background-d3: #{$c_light_d3};
 }
 
 .dark {
   --primary: crimson;
   --foreground: #{$c_light};
+  --foreground-1: #{$c_light_1};
+  --foreground-2: #{$c_light_2};
+  --foreground-3: #{$c_light_3};
+  --foreground-d1: #{$c_light_d1};
+  --foreground-d2: #{$c_light_d2};
+  --foreground-d3: #{$c_light_d3};
   --background: #{$c_dark};
+  --background-1: #{$c_dark_1};
+  --background-2: #{$c_dark_2};
+  --background-3: #{$c_dark_3};
+  --background-d1: #{$c_dark_d1};
+  --background-d2: #{$c_dark_d2};
+  --background-d3: #{$c_dark_d3};
 }
 
 body {
   margin: 0;
   overflow: hidden;
   background: var(--background);
-  color: var(--foregroun10d);
+  color: var(--foreground);
 }
 
 *,

@@ -5,7 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './PWA/',
+  base: '/PWA/',
   plugins: [
     react(),
     tsconfigPaths(),
@@ -14,7 +14,7 @@ export default defineConfig({
       manifest: {
         name: '4lpha Web App',
         short_name: '4lpha',
-        start_url: '.',
+        start_url: '/PWA/',
         display: 'standalone',
         // background_color: '#ffffff',
         // theme_color: '#317EFB',

@@ -31,7 +31,7 @@ export default function BottomNav() {
           showLabels
           value={current === -1 ? 0 : current}
           onChange={(_, newValue) => history.push(navItems[newValue].value)}
-          sx={{ background: "var(--background)", boxShadow: "none", paddingBottom: "env(safe-area-inset-bottom)" }}
+          sx={{ background: "var(--background)", boxShadow: "none" }}
         >
           {navItems.map((item) => (
             <BottomNavigationAction

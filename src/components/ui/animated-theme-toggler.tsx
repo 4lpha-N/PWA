@@ -36,13 +36,11 @@ export const AnimatedThemeToggler = ({
     const button = buttonRef.current;
     if (!button) return;
 
-    const { left, width } = button.getBoundingClientRect();
+    const { top, left, width, height } = button.getBoundingClientRect();
     const x = left + width / 2;
-    // Y-Position: Mitte des Viewports statt Button-Position
-    // Dadurch erreicht die Animation auch den Dynamic Island Bereich
+    const y = top + height / 2;
     const viewportWidth = window.visualViewport?.width ?? window.innerWidth;
     const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
-    const y = viewportHeight / 2;
     const maxRadius = Math.hypot(
       Math.max(x, viewportWidth - x),
       Math.max(y, viewportHeight - y),

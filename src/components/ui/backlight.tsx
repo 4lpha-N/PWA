@@ -19,7 +19,8 @@ export function Backlight({
   borderRadius,
   disabled = false,
 }: BacklightProps) {
-  const id = useId();
+  const rawId = useId();
+  const id = rawId.replace(/:/g, "");
 
   const radius =
     typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius;
@@ -34,7 +35,7 @@ export function Backlight({
   };
 
   return (
-    <div className={className} style={{ contain: "layout style" }}>
+    <div className={className}>
       <svg width="0" height="0" aria-hidden="true" style={{ display: "block" }}>
         <defs>
           <filter

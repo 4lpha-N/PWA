@@ -1,68 +1,70 @@
-import { useCallback, useEffect, useRef, useState } from "react"
-import { Moon, Sun } from "lucide-react"
-import { flushSync } from "react-dom"
-import { Button } from "@mui/material"
-import { cn } from "@/lib/utils"
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Moon, Sun } from "lucide-react";
+import { flushSync } from "react-dom";
+import { Button } from "@mui/material";
+import { cn } from "@/lib/utils";
 
 interface AnimatedThemeTogglerProps {
-  className?: string
-  duration?: number
+  className?: string;
+  duration?: number;
 }
 
 export const AnimatedThemeToggler = ({
   className,
   duration = 400,
 }: AnimatedThemeTogglerProps) => {
-  const [isDark, setIsDark] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const [isDark, setIsDark] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const updateTheme = () => {
-      setIsDark(document.documentElement.classList.contains("dark"))
-    }
+      setIsDark(document.documentElement.classList.contains("dark"));
+    };
 
-    updateTheme()
+    updateTheme();
 
-    const observer = new MutationObserver(updateTheme)
+    const observer = new MutationObserver(updateTheme);
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
-    })
+    });
 
-    return () => observer.disconnect()
-  }, [])
+    return () => observer.disconnect();
+  }, []);
 
   const toggleTheme = useCallback(() => {
-    const button = buttonRef.current
-    if (!button) return
+    const button = buttonRef.current;
+    if (!button) return;
 
-    const { top, left, width, height } = button.getBoundingClientRect()
-    const x = left + width / 2
-    const y = top + height / 2
-    const viewportWidth = window.visualViewport?.width ?? window.innerWidth
-    const viewportHeight = window.visualViewport?.height ?? window.innerHeight
+    const { left, width } = button.getBoundingClientRect();
+    const x = left + width / 2;
+    // Y-Position: Mitte des Viewports statt Button-Position
+    // Dadurch erreicht die Animation auch den Dynamic Island Bereich
+    const viewportWidth = window.visualViewport?.width ?? window.innerWidth;
+    const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+    const y = viewportHeight / 2;
     const maxRadius = Math.hypot(
       Math.max(x, viewportWidth - x),
-      Math.max(y, viewportHeight - y)
-    )
+      Math.max(y, viewportHeight - y),
+    );
 
     const applyTheme = () => {
-      const newTheme = !isDark
-      setIsDark(newTheme)
-      document.documentElement.classList.toggle("dark")
-      localStorage.setItem("theme", newTheme ? "dark" : "light")
-    }
+      const newTheme = !isDark;
+      setIsDark(newTheme);
+      document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", newTheme ? "dark" : "light");
+    };
 
     if (typeof document.startViewTransition !== "function") {
-      applyTheme()
-      return
+      applyTheme();
+      return;
     }
 
     const transition = document.startViewTransition(() => {
-      flushSync(applyTheme)
-    })
+      flushSync(applyTheme);
+    });
 
-    const ready = transition?.ready
+    const ready = transition?.ready;
     if (ready && typeof ready.then === "function") {
       ready.then(() => {
         document.documentElement.animate(
@@ -76,11 +78,11 @@ export const AnimatedThemeToggler = ({
             duration,
             easing: "ease-in-out",
             pseudoElement: "::view-transition-new(root)",
-          }
-        )
-      })
+          },
+        );
+      });
     }
-  }, [isDark, duration])
+  }, [isDark, duration]);
 
   return (
     <Button
@@ -94,5 +96,5 @@ export const AnimatedThemeToggler = ({
       {isDark ? <Sun /> : <Moon />}
       <span className="sr-only">Toggle theme</span>
     </Button>
-  )
-}
+  );
+};

@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./App.scss";
 import { Box } from "@mui/material";
 import Header from "./components/layout/Header";
@@ -12,9 +12,9 @@ import {
 const isDarkTheme = document.documentElement.classList.contains("dark");
 
 function App({ children }: { children?: React.ReactNode }) {
-  const [isDark, setIsDark] = React.useState(isDarkTheme);
+  const [isDark, setIsDark] = useState(isDarkTheme);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const updateTheme = () => {
       setIsDark(document.documentElement.classList.contains("dark"));
     };
@@ -30,7 +30,7 @@ function App({ children }: { children?: React.ReactNode }) {
     return () => observer.disconnect();
   }, []);
 
-  const theme = React.useMemo(
+  const theme = useMemo(
     () =>
       createTheme({
         palette: {

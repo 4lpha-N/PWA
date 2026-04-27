@@ -19,7 +19,7 @@ export default function AppRouter() {
     fall
     */
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/PWA">
       <App>
         <Route
           render={({ location }) => (

@@ -1,4 +1,4 @@
-import { PageWrapper } from "./PageWrapper";
+import { PageWrapper } from "./_PageWrapper";
 import { useAppContext } from "../context/app-context";
 import { Grid, Box } from "@mui/material";
 import { Backlight } from "@/components/ui/backlight";
@@ -14,7 +14,7 @@ export default function Page1() {
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
         {Array.from({ length: 2 }).map((_, i) => (
           <Grid key={i} size={{ xs: 6, sm: 4, md: 3 }}>
-            <Backlight blur={15}>
+            <Backlight blur={15} borderRadius={15} disabled={false}>
               <MagicCard
                 gradientSize={100}
                 mode="gradient"
@@ -41,7 +41,7 @@ export default function Page1() {
           </Grid>
         ))}
         <Grid size={{ xs: 12, sm: 4, md: 3 }}>
-          <Backlight blur={15}>
+          <Backlight blur={15} borderRadius={10}>
             <MagicCard
               gradientSize={100}
               mode="gradient"

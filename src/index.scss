@@ -21,6 +21,7 @@ $c_dark_d3: #16130e; // dunkler 3
 
 :root {
   --primary: crimson;
+  --color-border: transparent;
   --primary-1: color-mix(in srgb, var(--primary) 80%, black 20%);
   --primary-2: color-mix(in srgb, var(--primary) 60%, black 40%);
   --foreground: #{$c_dark};
@@ -41,6 +42,7 @@ $c_dark_d3: #16130e; // dunkler 3
 
 .dark {
   --primary: crimson;
+  --color-border: transparent;
   --foreground: #{$c_light};
   --foreground-1: #{$c_light_1};
   --foreground-2: #{$c_light_2};

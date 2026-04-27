@@ -1,4 +1,4 @@
-import { PageWrapper } from "./PageWrapper";
+import { PageWrapper } from "./_PageWrapper";
 import { useAppContext } from "../context/app-context";
 
 export default function Home() {

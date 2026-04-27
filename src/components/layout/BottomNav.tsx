@@ -3,7 +3,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { useLocation, useHistory } from "react-router-dom";
-import { PageWrapper } from "../../pages/PageWrapper";
+import { PageWrapper } from "../../pages/_PageWrapper";
 import { useAppContext } from "../../context/app-context";
 
 const navItems = [

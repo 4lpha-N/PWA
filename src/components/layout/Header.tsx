@@ -1,4 +1,4 @@
-import { PageWrapper } from "../../pages/PageWrapper";
+import { PageWrapper } from "../../pages/_PageWrapper";
 import { AppBar, Toolbar, Typography, Box } from "@mui/material";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 

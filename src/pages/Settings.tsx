@@ -16,7 +16,7 @@ export default function Settings() {
   } = useAppContext();
   return (
     <PageWrapper>
-      {labels.settings}
+      <div>{labels.settings}</div>
       <Box sx={{ minWidth: 120 }}>
         <FormControl
           fullWidth

@@ -14,6 +14,7 @@ function App({ children }: { children?: ReactNode }) {
   const { theme: currentTheme } = useAppContext();
   const isDark = currentTheme === "dark";
 
+  // Breakpoints: xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536
   const theme = useMemo(
     () =>
       createTheme({

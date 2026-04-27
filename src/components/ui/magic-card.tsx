@@ -170,6 +170,8 @@ export function MagicCard(props: MagicCardProps) {
       onPointerLeave={() => reset("leave")}
       onPointerEnter={() => reset("enter")}
       style={{
+        willChange: "transform",
+        transform: "translateZ(0)",
         background: useMotionTemplate`
           linear-gradient(var(--color-background) 0 0) padding-box,
           radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px,

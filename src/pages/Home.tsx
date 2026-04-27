@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <PageWrapper>
       {/* <div style={{ background: "var(--primary)", height: "100%" }}> */}
-      {labels.home}
+      <div>{labels.home}</div>
       {/* </div> */}
     </PageWrapper>
   );

@@ -34,8 +34,8 @@ export function Backlight({
   };
 
   return (
-    <div className={className}>
-      <svg width="0" height="0" aria-hidden="true">
+    <div className={className} style={{ contain: "layout style" }}>
+      <svg width="0" height="0" aria-hidden="true" style={{ display: "block" }}>
         <defs>
           <filter
             id={id}
@@ -114,6 +114,8 @@ export function Backlight({
         style={{
           filter: `url(#${id})`,
           borderRadius: radius,
+          willChange: "transform",
+          transform: "translateZ(0)",
         }}
       >
         {children}

@@ -1,6 +1,6 @@
 import { PageWrapper } from "./_PageWrapper";
 import { useAppContext } from "../context/app-context";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, useMediaQuery } from "@mui/material";
 import { Backlight } from "@/components/ui/backlight";
 import { MagicCard } from "@/components/ui/magic-card";
 import OPShip from "../assets/op-ship.jpg";
@@ -15,8 +15,10 @@ interface MagicCardProps {
 
 export default function Page1() {
   const { labels } = useAppContext();
+  const isMobile = useMediaQuery("(max-width:599px)");
+
   const magicCardProps: MagicCardProps = {
-    gradientSize: 100,
+    gradientSize: isMobile ? 50 : 100,
     mode: "gradient",
     gradientColor: "var(--primary)",
     gradientFrom: "var(--primary)",
@@ -33,8 +35,8 @@ export default function Page1() {
   return (
     <PageWrapper>
       {/* <div style={{ background: "var(--primary-1)", height: "100%" }}> */}
-      {labels.page1}
-      <Grid container spacing={2} sx={{ marginTop: 2 }}>
+      <div>{labels.page1}</div>
+      <Grid container spacing={3} sx={{ marginTop: 2 }}>
         {Array.from({ length: 2 }).map((_, i) => (
           <Grid key={i} size={{ xs: 6, sm: 4, md: 3 }}>
             <Backlight
@@ -59,7 +61,7 @@ export default function Page1() {
                     width: "100%",
                     aspectRatio: "16/9",
                     objectFit: "cover",
-                    transition: "transform 0.3s ease",
+                    // transition: "transform 0.3s ease",
                     // "&:hover": {
                     //   transform: "scale(1.25)",
                     // },
@@ -77,11 +79,11 @@ export default function Page1() {
             borderRadius={backlightProps.borderRadius}
           >
             <MagicCard
-              gradientSize={100}
-              mode="gradient"
-              gradientColor="var(--primary)"
-              gradientFrom="var(--primary)"
-              gradientTo="var(--primary)"
+              gradientSize={magicCardProps.gradientSize}
+              mode={magicCardProps.mode}
+              gradientColor={magicCardProps.gradientColor}
+              gradientFrom={magicCardProps.gradientFrom}
+              gradientTo={magicCardProps.gradientTo}
             >
               <Box
                 component="img"
@@ -101,7 +103,6 @@ export default function Page1() {
           </Backlight>
         </Grid>
       </Grid>
-      <Backlight />
       {/* </div> */}
     </PageWrapper>
   );

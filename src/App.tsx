@@ -13,7 +13,6 @@ import {
 function App({ children }: { children?: ReactNode }) {
   const { theme: currentTheme } = useAppContext();
   const isDark = currentTheme === "dark";
-  console.warn("Current theme:", currentTheme, isDark);
 
   const theme = useMemo(
     () =>

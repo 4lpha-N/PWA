@@ -47,21 +47,13 @@ export default function Settings() {
                 event.target.value as ThemeAnimationPreset,
               )
             }
-            slotProps={{
-              root: {
-                sx: {
-                  border: "1px solid var(--foreground)",
-                  outline: "none",
-                },
-              },
-              notchedOutline: {
-                sx: { border: "none" },
-              },
-            }}
             sx={{
               color: "var(--foreground)",
               "::placeholder": { color: "var(--foreground)" },
-              borderColor: "var(--foreground)",
+              border: "1px solid var(--foreground)",
+              outline: "none",
+              "& .MuiSvgIcon-root": { color: "var(--foreground)" },
+              "& fieldset": { border: "none" },
             }}
           >
             {availablePresets.map((preset) => (

@@ -36,7 +36,7 @@ export default function Page1() {
     <PageWrapper>
       {/* <div style={{ background: "var(--primary-1)", height: "100%" }}> */}
       <div>{labels.page1}</div>
-      <Grid container spacing={3} sx={{ marginTop: 2 }}>
+      <Grid container spacing={2} sx={{ marginTop: 2 }}>
         {Array.from({ length: 2 }).map((_, i) => (
           <Grid key={i} size={{ xs: 6, sm: 4, md: 3 }}>
             <Backlight

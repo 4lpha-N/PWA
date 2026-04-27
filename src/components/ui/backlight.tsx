@@ -26,7 +26,7 @@ export function Backlight({
     typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius;
 
   // Filterregion wächst proportional zum blur-Wert
-  const spread = Math.round(blur * 4);
+  const spread = Math.round(blur * 2);
   const filterRegion = {
     x: `-${spread}%`,
     y: `-${spread}%`,
@@ -62,7 +62,7 @@ export function Backlight({
                 />
                 <feGaussianBlur
                   in="blurMid"
-                  stdDeviation={blur * 1.2}
+                  stdDeviation={blur * 0.5}
                   result="blurWide"
                 />
                 <feColorMatrix

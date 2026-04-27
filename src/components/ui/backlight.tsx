@@ -1,13 +1,13 @@
-import { useId, type ReactElement } from "react"
+import { useId, type ReactElement } from "react";
 
 type BacklightProps = {
-  children?: ReactElement
-  className?: string
-  blur?: number
-}
+  children?: ReactElement;
+  className?: string;
+  blur?: number;
+};
 
 export function Backlight({ blur = 20, children, className }: BacklightProps) {
-  const id = useId()
+  const id = useId();
 
   return (
     <div className={className}>
@@ -29,5 +29,5 @@ export function Backlight({ blur = 20, children, className }: BacklightProps) {
 
       <div style={{ filter: `url(#${id})` }}>{children}</div>
     </div>
-  )
+  );
 }

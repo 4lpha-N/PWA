@@ -111,15 +111,13 @@ export function Backlight({
         </defs>
       </svg>
 
-      <div style={{ willChange: "transform", transform: "translateZ(0)" }}>
-        <div
-          style={{
-            filter: `url(#${id})`,
-            borderRadius: radius,
-          }}
-        >
-          {children}
-        </div>
+      <div
+        style={{
+          filter: `url(#${id})`,
+          borderRadius: radius,
+        }}
+      >
+        {children}
       </div>
     </div>
   );

@@ -5,8 +5,31 @@ import { Backlight } from "@/components/ui/backlight";
 import { MagicCard } from "@/components/ui/magic-card";
 import OPShip from "../assets/op-ship.jpg";
 
+interface MagicCardProps {
+  gradientSize: number;
+  mode: "gradient" | undefined;
+  gradientColor: string;
+  gradientFrom: string;
+  gradientTo: string;
+}
+
 export default function Page1() {
   const { labels } = useAppContext();
+  const magicCardProps: MagicCardProps = {
+    gradientSize: 100,
+    mode: "gradient",
+    gradientColor: "var(--primary)",
+    gradientFrom: "var(--primary)",
+    gradientTo: "var(--primary)",
+  };
+
+  const backlightProps = {
+    blur: 17,
+    saturate: 3,
+    contrast: 1,
+    borderRadius: 15,
+  };
+
   return (
     <PageWrapper>
       {/* <div style={{ background: "var(--primary-1)", height: "100%" }}> */}
@@ -14,13 +37,19 @@ export default function Page1() {
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
         {Array.from({ length: 2 }).map((_, i) => (
           <Grid key={i} size={{ xs: 6, sm: 4, md: 3 }}>
-            <Backlight blur={15} borderRadius={15} disabled={false}>
+            <Backlight
+              blur={backlightProps.blur}
+              saturate={backlightProps.saturate}
+              contrast={backlightProps.contrast}
+              borderRadius={backlightProps.borderRadius}
+              disabled={false}
+            >
               <MagicCard
-                gradientSize={100}
-                mode="gradient"
-                gradientColor="var(--primary)"
-                gradientFrom="var(--primary)"
-                gradientTo="var(--primary)"
+                gradientSize={magicCardProps.gradientSize}
+                mode={magicCardProps.mode}
+                gradientColor={magicCardProps.gradientColor}
+                gradientFrom={magicCardProps.gradientFrom}
+                gradientTo={magicCardProps.gradientTo}
               >
                 <Box
                   component="img"
@@ -41,7 +70,12 @@ export default function Page1() {
           </Grid>
         ))}
         <Grid size={{ xs: 12, sm: 4, md: 3 }}>
-          <Backlight blur={15} borderRadius={10}>
+          <Backlight
+            blur={backlightProps.blur}
+            saturate={backlightProps.saturate}
+            contrast={backlightProps.contrast}
+            borderRadius={backlightProps.borderRadius}
+          >
             <MagicCard
               gradientSize={100}
               mode="gradient"

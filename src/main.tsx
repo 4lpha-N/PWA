@@ -3,6 +3,7 @@ import AppRouter from "./AppRouter";
 import "./index.css";
 import "./index.scss";
 import { ThemeProvider } from "next-themes";
+import { AppProvider } from "./context/AppContext";
 
 // Suppress known prop warnings from @steveeeie/react-page-transition
 const _filter = (msg: string) =>
@@ -25,6 +26,8 @@ console.warn = (...args) => {
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-    <AppRouter />
+    <AppProvider>
+      <AppRouter />
+    </AppProvider>
   </ThemeProvider>,
 );

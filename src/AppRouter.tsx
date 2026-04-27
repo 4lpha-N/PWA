@@ -5,26 +5,18 @@ import App from "./App";
 import Home from "./pages/Home";
 import Page1 from "./pages/Page1";
 import Settings from "./pages/Settings";
+import { useAppContext } from "./context/app-context";
 
 export default function AppRouter() {
-  /* PRESETS
-    slide
-    roomTo Top/Bottom/Right/Left
-    cubeTo Top/Bottom/Right/Left
-    carouselTo Top/Bottom/Right/Left
-    moveTo From  Top/Bottom/Right/Left
-    fadeFrom Top/Bottom/Right/Left
-    scaleDownFrom Top/Bottom/Right/Left
-    moveTo Unfold Top/Bottom/Right/Left
-    fall
-    */
+  const { themeAnimationPreset } = useAppContext();
+
   return (
     <BrowserRouter basename="/PWA">
       <App>
         <Route
           render={({ location }) => (
             <PageTransition
-              preset={"slide"}
+              preset={themeAnimationPreset}
               transitionKey={location.pathname}
               enterAnimation={""}
               exitAnimation={""}

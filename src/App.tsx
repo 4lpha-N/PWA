@@ -1,34 +1,19 @@
-import { useState, useEffect, useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import "./App.scss";
 import { Box } from "@mui/material";
 import Header from "./components/layout/Header";
 import BottomNav from "./components/layout/BottomNav";
+import { useAppContext } from "./context/app-context";
 
 import {
   ThemeProvider as MUIThemeProvider,
   createTheme,
 } from "@mui/material/styles";
 
-const isDarkTheme = document.documentElement.classList.contains("dark");
-
-function App({ children }: { children?: React.ReactNode }) {
-  const [isDark, setIsDark] = useState(isDarkTheme);
-
-  useEffect(() => {
-    const updateTheme = () => {
-      setIsDark(document.documentElement.classList.contains("dark"));
-    };
-
-    updateTheme();
-
-    const observer = new MutationObserver(updateTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
+function App({ children }: { children?: ReactNode }) {
+  const { theme: currentTheme } = useAppContext();
+  const isDark = currentTheme === "dark";
+  console.warn("Current theme:", currentTheme, isDark);
 
   const theme = useMemo(
     () =>

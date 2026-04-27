@@ -4,16 +4,18 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { useLocation, useHistory } from "react-router-dom";
 import { PageWrapper } from "../../pages/PageWrapper";
+import { useAppContext } from "../../context/app-context";
 
 const navItems = [
   { label: "Home", value: "/", icon: <HomeIcon /> },
-  { label: "Page 1", value: "/page1", icon: <DescriptionIcon /> },
+  { label: "Page1", value: "/page1", icon: <DescriptionIcon /> },
   { label: "Settings", value: "/settings", icon: <SettingsIcon /> },
 ];
 
 export default function BottomNav() {
   const location = useLocation();
   const history = useHistory();
+  const { labels } = useAppContext();
   const current = navItems.findIndex(
     (item) => item.value === location.pathname,
   );
@@ -36,9 +38,10 @@ export default function BottomNav() {
           {navItems.map((item) => (
             <BottomNavigationAction
               key={item.value}
-              label={item.label}
+              label={labels[item.label.toLowerCase()]}
               icon={item.icon}
               sx={{ color: "var(--foreground)", boxShadow: "none" }}
+              aria-label={labels.ariaTo.replace("{}", item.label)}
             />
           ))}
         </BottomNavigation>

@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { Moon, Sun } from "lucide-react";
 import { flushSync } from "react-dom";
 import { Button } from "@mui/material";
 import { cn } from "@/lib/utils";
+import { useAppContext } from "@/context/app-context";
 
 interface AnimatedThemeTogglerProps {
   className?: string;
@@ -13,24 +14,9 @@ export const AnimatedThemeToggler = ({
   className,
   duration = 400,
 }: AnimatedThemeTogglerProps) => {
-  const [isDark, setIsDark] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const updateTheme = () => {
-      setIsDark(document.documentElement.classList.contains("dark"));
-    };
-
-    updateTheme();
-
-    const observer = new MutationObserver(updateTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
+  const { labels, theme, setTheme } = useAppContext();
+  const isDark = theme === "dark";
 
   const toggleTheme = useCallback(() => {
     const button = buttonRef.current;
@@ -48,9 +34,7 @@ export const AnimatedThemeToggler = ({
 
     const applyTheme = () => {
       const newTheme = !isDark;
-      setIsDark(newTheme);
-      document.documentElement.classList.toggle("dark");
-      localStorage.setItem("theme", newTheme ? "dark" : "light");
+      setTheme(newTheme ? "dark" : "light");
     };
 
     if (typeof document.startViewTransition !== "function") {
@@ -80,7 +64,7 @@ export const AnimatedThemeToggler = ({
         );
       });
     }
-  }, [isDark, duration]);
+  }, [isDark, duration, setTheme]);
 
   return (
     <Button
@@ -90,6 +74,7 @@ export const AnimatedThemeToggler = ({
       ref={buttonRef}
       onClick={toggleTheme}
       className={cn(className)}
+      aria-label={labels.ariaTheme.replace("{}", isDark ? "Light" : "Dark")}
     >
       {isDark ? <Sun /> : <Moon />}
       <span className="sr-only">Toggle theme</span>

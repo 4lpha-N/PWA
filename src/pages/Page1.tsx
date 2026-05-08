@@ -45,6 +45,7 @@ export default function Page1() {
               contrast={backlightProps.contrast}
               borderRadius={backlightProps.borderRadius}
               disabled={false}
+              startAnimation={{ enabled: true, duration: 2000 }}
             >
               <MagicCard
                 gradientSize={magicCardProps.gradientSize}
@@ -77,6 +78,7 @@ export default function Page1() {
             saturate={backlightProps.saturate}
             contrast={backlightProps.contrast}
             borderRadius={backlightProps.borderRadius}
+            startAnimation={{ enabled: true, duration: 2000 }}
           >
             <MagicCard
               gradientSize={magicCardProps.gradientSize}

@@ -1,4 +1,4 @@
-import { useId, type ReactElement } from "react";
+import { useEffect, useId, useState, type ReactElement } from "react";
 
 type BacklightProps = {
   children?: ReactElement;
@@ -8,6 +8,10 @@ type BacklightProps = {
   contrast?: number;
   borderRadius?: number | string;
   disabled?: boolean;
+  startAnimation?: {
+    enabled?: boolean;
+    duration?: number; // ms
+  };
 };
 
 export function Backlight({
@@ -18,9 +22,50 @@ export function Backlight({
   className,
   borderRadius,
   disabled = false,
+  startAnimation,
 }: BacklightProps) {
   const rawId = useId();
   const id = rawId.replace(/:/g, "");
+
+  const animationEnabled = startAnimation?.enabled ?? false;
+  const animationDuration = Math.max(0, startAnimation?.duration ?? 700);
+
+  const [glowOpacity, setGlowOpacity] = useState(0);
+
+  useEffect(() => {
+    if (disabled || !animationEnabled) {
+      return;
+    }
+
+    if (animationDuration === 0) {
+      return;
+    }
+
+    let frame = 0;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / animationDuration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+      setGlowOpacity(eased);
+
+      if (progress < 1) {
+        frame = requestAnimationFrame(tick);
+      }
+    };
+
+    frame = requestAnimationFrame((now) => {
+      setGlowOpacity(0);
+      tick(now);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [animationEnabled, animationDuration, disabled]);
+
+  const effectiveGlowOpacity = disabled
+    ? 0
+    : !animationEnabled || animationDuration === 0
+      ? 1
+      : glowOpacity;
 
   const radius =
     typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius;
@@ -100,11 +145,27 @@ export function Backlight({
                     intercept={-(contrast - 1) / 2}
                   />
                 </feComponentTransfer>
-                <feComposite
-                  in="SourceGraphic"
-                  in2="contrasted"
-                  operator="over"
-                />
+                {animationEnabled ? (
+                  <>
+                    <feComponentTransfer
+                      in="contrasted"
+                      result="contrastedAnimated"
+                    >
+                      <feFuncA type="linear" slope={effectiveGlowOpacity} />
+                    </feComponentTransfer>
+                    <feComposite
+                      in="SourceGraphic"
+                      in2="contrastedAnimated"
+                      operator="over"
+                    />
+                  </>
+                ) : (
+                  <feComposite
+                    in="SourceGraphic"
+                    in2="contrasted"
+                    operator="over"
+                  />
+                )}
               </>
             )}
           </filter>

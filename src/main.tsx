@@ -4,6 +4,7 @@ import "./index.css";
 import "./index.scss";
 import { ThemeProvider } from "next-themes";
 import { AppProvider } from "./context/AppContext";
+import SnackbarProvider from "./context/SnackbarProvider";
 
 // Suppress known prop warnings from @steveeeie/react-page-transition
 const _filter = (msg: string) =>
@@ -27,7 +28,9 @@ console.warn = (...args) => {
 createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
     <AppProvider>
-      <AppRouter />
+      <SnackbarProvider>
+        <AppRouter />
+      </SnackbarProvider>
     </AppProvider>
   </ThemeProvider>,
 );

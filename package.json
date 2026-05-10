@@ -11,7 +11,9 @@
     "build:firebase": "tsc -b && vite build --mode firebase",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy:firebase": "npm run build:firebase && firebase deploy --only hosting"
+    "deploy": "node scripts/deploy.mjs",
+    "deploy:firebase": "npm run deploy -- --firebase",
+    "deploy:github": "npm run deploy -- --github"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

@@ -8,9 +8,10 @@ import {
   signOutUser,
 } from "@/lib/auth";
 
-const isIOS = () => {
+const isMobileDevice = () => {
   const userAgent = navigator.userAgent.toLowerCase();
-  return /iphone|ipad|ipod/.test(userAgent);
+  const isTouchDevice = window.matchMedia?.("(pointer: coarse)")?.matches ?? false;
+  return /iphone|ipad|ipod|android|mobile/.test(userAgent) || isTouchDevice;
 };
 
 const shouldFallbackToRedirect = (error: unknown) => {
@@ -19,7 +20,9 @@ const shouldFallbackToRedirect = (error: unknown) => {
   return (
     code === "auth/popup-blocked" ||
     code === "auth/popup-closed-by-user" ||
-    code === "auth/cancelled-popup-request"
+    code === "auth/cancelled-popup-request" ||
+    code === "auth/operation-not-supported-in-this-environment" ||
+    code === "auth/unauthorized-domain"
   );
 };
 
@@ -46,7 +49,7 @@ export const useAuth = () => {
   }, []);
 
   const loginWithGoogle = useCallback(async () => {
-    if (isIOS()) {
+    if (isMobileDevice()) {
       await signInWithGoogleRedirect();
       return;
     }

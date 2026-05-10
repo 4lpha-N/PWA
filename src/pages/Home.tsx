@@ -31,7 +31,9 @@ export default function Home() {
       <div style={{ marginTop: 16 }}>
         <p style={{ fontWeight: 600, margin: 0 }}>Login Debug</p>
         {authDebugEntries.length === 0 && (
-          <p style={{ margin: "6px 0 0" }}>Noch keine Login-Events vorhanden.</p>
+          <p style={{ margin: "6px 0 0" }}>
+            Noch keine Login-Events vorhanden.
+          </p>
         )}
         {authDebugEntries.map((entry, index) => (
           <p key={`${entry.timestamp}-${index}`} style={{ margin: "6px 0 0" }}>

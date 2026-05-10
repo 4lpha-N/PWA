@@ -17,6 +17,7 @@ type AuthDebugEntry = {
 
 const AUTH_DEBUG_STORAGE_KEY = "auth_debug_log";
 const AUTH_DEBUG_MAX_ENTRIES = 12;
+const AUTH_REDIRECT_PENDING_KEY = "auth_redirect_pending";
 
 const toErrorDetails = (error: unknown) => {
   if (!error || typeof error !== "object") {
@@ -54,6 +55,26 @@ const pushAuthDebug = (entry: Omit<AuthDebugEntry, "timestamp">) => {
   sessionStorage.setItem(AUTH_DEBUG_STORAGE_KEY, JSON.stringify(nextEntries));
 };
 
+const setRedirectPending = (value: boolean) => {
+  try {
+    if (value) {
+      sessionStorage.setItem(AUTH_REDIRECT_PENDING_KEY, "1");
+      return;
+    }
+    sessionStorage.removeItem(AUTH_REDIRECT_PENDING_KEY);
+  } catch {
+    // ignore storage errors
+  }
+};
+
+const isRedirectPending = () => {
+  try {
+    return sessionStorage.getItem(AUTH_REDIRECT_PENDING_KEY) === "1";
+  } catch {
+    return false;
+  }
+};
+
 export const getAuthDebugLog = () => readAuthDebugLog();
 
 const isMobileDevice = () => {
@@ -83,6 +104,9 @@ export const useAuth = () => {
         step: "auth-state-changed",
         message: user ? `user=${user.email ?? "ohne-email"}` : "user=null",
       });
+      if (user) {
+        setRedirectPending(false);
+      }
       setCurrentUser(user);
     });
     return unsubscribe;
@@ -90,9 +114,12 @@ export const useAuth = () => {
 
   useEffect(() => {
     const checkRedirectResult = async () => {
+      const redirectWasPending = isRedirectPending();
+
       try {
         const result = await getGoogleRedirectResult();
         if (result?.user) {
+          setRedirectPending(false);
           pushAuthDebug({
             step: "redirect-result-success",
             message: result.user.email ?? "ohne-email",
@@ -100,11 +127,19 @@ export const useAuth = () => {
           return;
         }
 
-        pushAuthDebug({
-          step: "redirect-result-empty",
-          message: "kein redirect result vorhanden",
-        });
+        if (redirectWasPending) {
+          pushAuthDebug({
+            step: "redirect-result-empty-after-pending",
+            message: "redirect gestartet, aber kein result zurueck",
+          });
+        } else {
+          pushAuthDebug({
+            step: "redirect-result-empty",
+            message: "kein redirect result vorhanden",
+          });
+        }
       } catch (error) {
+        setRedirectPending(false);
         const { code, message } = toErrorDetails(error);
         pushAuthDebug({
           step: "redirect-result-error",
@@ -120,11 +155,23 @@ export const useAuth = () => {
 
   const loginWithGoogle = useCallback(async () => {
     if (isMobileDevice()) {
-      pushAuthDebug({
-        step: "login-start-mobile-redirect",
-        message: navigator.userAgent,
-      });
-      await signInWithGoogleRedirect();
+      try {
+        pushAuthDebug({
+          step: "login-start-mobile-redirect",
+          message: navigator.userAgent,
+        });
+        setRedirectPending(true);
+        await signInWithGoogleRedirect();
+      } catch (error) {
+        setRedirectPending(false);
+        const { code, message } = toErrorDetails(error);
+        pushAuthDebug({
+          step: "mobile-redirect-init-error",
+          code,
+          message,
+        });
+        console.error("Google Redirect Login Start fehlgeschlagen", error);
+      }
       return;
     }
 
@@ -145,7 +192,19 @@ export const useAuth = () => {
           code,
           message,
         });
-        await signInWithGoogleRedirect();
+        try {
+          setRedirectPending(true);
+          await signInWithGoogleRedirect();
+        } catch (redirectError) {
+          setRedirectPending(false);
+          const redirectErrorDetails = toErrorDetails(redirectError);
+          pushAuthDebug({
+            step: "fallback-redirect-init-error",
+            code: redirectErrorDetails.code,
+            message: redirectErrorDetails.message,
+          });
+          console.error("Google Redirect Fallback fehlgeschlagen", redirectError);
+        }
         return;
       }
 

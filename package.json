@@ -7,8 +7,11 @@
     "start": "vite",
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:ghpages": "tsc -b && vite build --mode ghpages",
+    "build:firebase": "tsc -b && vite build --mode firebase",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:firebase": "npm run build:firebase && firebase deploy --only hosting"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

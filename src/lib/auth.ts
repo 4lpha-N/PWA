@@ -1,6 +1,5 @@
 import {
   browserLocalPersistence,
-  createUserWithEmailAndPassword,
   getRedirectResult,
   GoogleAuthProvider,
   getAuth,
@@ -8,7 +7,6 @@ import {
   setPersistence,
   signInWithRedirect,
   signInWithPopup,
-  signInWithEmailAndPassword,
   signOut,
   type User,
 } from "firebase/auth";
@@ -20,11 +18,7 @@ setPersistence(auth, browserLocalPersistence).catch((error: unknown) => {
   console.error("Firebase auth persistence setup failed", error);
 });
 
-export const registerWithEmail = (email: string, password: string) =>
-  createUserWithEmailAndPassword(auth, email, password);
 
-export const signInWithEmail = (email: string, password: string) =>
-  signInWithEmailAndPassword(auth, email, password);
 
 export const signInWithGooglePopup = () => {
   const provider = new GoogleAuthProvider();

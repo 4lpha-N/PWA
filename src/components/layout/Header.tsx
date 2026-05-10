@@ -13,38 +13,38 @@ import Login from "@mui/icons-material/Login";
 import Logout from "@mui/icons-material/Logout";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import { useAuth } from "@/hooks/useAuth";
-import { useSnackbar } from "notistack";
+// import { useSnackbar } from "notistack";
 
 export default function Header() {
   const { currentUser, isLoggedIn, loginWithGoogle, logout } = useAuth();
-  const { enqueueSnackbar } = useSnackbar();
-  const previousUserRef = useRef<typeof currentUser>(undefined);
+  // const { enqueueSnackbar } = useSnackbar();
+  // const previousUserRef = useRef<typeof currentUser>(undefined);
   const avatarSize = 26;
   const avatarSrc = currentUser?.photoURL?.trim() || undefined;
   const avatarAlt =
     currentUser?.displayName ?? currentUser?.email ?? "User Avatar";
 
-  useEffect(() => {
-    const previousUser = previousUserRef.current;
+  // useEffect(() => {
+  //   const previousUser = previousUserRef.current;
 
-    if (previousUser === undefined) {
-      previousUserRef.current = currentUser;
-      return;
-    }
+  //   if (previousUser === undefined) {
+  //     previousUserRef.current = currentUser;
+  //     return;
+  //   }
 
-    if (!previousUser && currentUser) {
-      enqueueSnackbar(
-        `Eingeloggt als ${currentUser.displayName ?? currentUser.email ?? "ohne E-Mail"}`,
-        { variant: "default" },
-      );
-    }
+  //   if (!previousUser && currentUser) {
+  //     enqueueSnackbar(
+  //       `Eingeloggt als ${currentUser.displayName ?? currentUser.email ?? "ohne E-Mail"}`,
+  //       { variant: "default" },
+  //     );
+  //   }
 
-    if (previousUser && !currentUser) {
-      enqueueSnackbar("Ausgeloggt", { variant: "default" });
-    }
+  //   if (previousUser && !currentUser) {
+  //     enqueueSnackbar("Ausgeloggt", { variant: "default" });
+  //   }
 
-    previousUserRef.current = currentUser;
-  }, [currentUser, enqueueSnackbar]);
+  //   previousUserRef.current = currentUser;
+  // }, [currentUser, enqueueSnackbar]);
 
   return (
     <AppBar

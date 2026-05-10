@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "@/lib/firestore";
 import type { User } from "firebase/auth";
 import {
   getGoogleRedirectResult,
@@ -50,6 +52,33 @@ export const useAuth = () => {
     });
     return unsubscribe;
   }, []);
+
+  // Nach Login: User-Dokument in Firestore prüfen/ggf. anlegen
+  useEffect(() => {
+    if (!currentUser) return;
+    const userRef = doc(db, "user", currentUser.uid);
+    getDoc(userRef)
+      .then((snap) => {
+        if (!snap.exists()) {
+          setDoc(userRef, {
+            email: currentUser.email,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
+          })
+            .then(() => {
+              console.log("Firestore: User-Dokument angelegt", currentUser.uid);
+            })
+            .catch((err) => {
+              console.error("Firestore: User-Dokument konnte nicht angelegt werden", err);
+            });
+        } else {
+          console.log("Firestore: User-Dokument existiert bereits", currentUser.uid);
+        }
+      })
+      .catch((err) => {
+        console.error("Firestore: Fehler beim Lesen des User-Dokuments", err);
+      });
+  }, [currentUser]);
 
   useEffect(() => {
     const checkRedirectResult = async () => {

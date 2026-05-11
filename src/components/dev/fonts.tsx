@@ -223,7 +223,7 @@ const fontVariants = [
 ] as const;
 
 // Hilfsfunktion: gruppiert die Varianten nach vX
-function groupFontVariants(variants) {
+function groupFontVariants(variants: typeof fontVariants) {
   const groups = [];
   let current = [];
   let lastV = null;

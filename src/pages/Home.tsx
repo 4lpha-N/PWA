@@ -15,6 +15,7 @@ export default function Home() {
       {/* <FirestoreTest /> */}
       {/* </div> */}
       {currentUser != null && <FontsDevPage />}
+      <FontsDevPage />
     </PageWrapper>
   );
 }

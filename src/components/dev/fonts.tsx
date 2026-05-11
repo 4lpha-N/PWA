@@ -1,5 +1,4 @@
 const headlineLevels = ["h1", "h2", "h3", "h4", "h5", "h6"] as const;
-const weights = ["fw-400", "fw-700"] as const;
 const textSizes = [
   "text-xs",
   "text-sm",
@@ -253,7 +252,7 @@ export default function FontsDevPage() {
         const headline = group.find((v) => v.type === "headline");
         const text = group.find((v) => v.type === "text");
         return (
-          <div key={pairIdx} className="flex gap-8">
+          <div key={pairIdx} className="flex gap-8 flex-col-mobile">
             {/* Linke Spalte: Accent (falls vorhanden) + Headline */}
             <section className="flex flex-col gap-2 flex-1">
               {accent && (
@@ -298,31 +297,36 @@ export default function FontsDevPage() {
                       >
                         {hl}
                       </span>
-                      {weights.map((fw) => (
-                        <div
-                          key={fw}
-                          className={`${headline.fontClass} ${hl} ${fw} flex-1`}
-                        >
-                          4lpha
-                        </div>
-                      ))}
+                      {/* Mobil: nur fw-400, Desktop: beide */}
+                      <div
+                        className={`flex-1 ${hl} fw-400 ${headline.fontClass} block md:inline-block`}
+                      >
+                        4lpha
+                      </div>
+                      <div
+                        className={`flex-1 ${hl} fw-700 ${headline.fontClass} hidden-mobile md:inline-block`}
+                      >
+                        4lpha
+                      </div>
                     </div>
                   ))}
                 </>
               )}
             </section>
-            {/* Rechte Spalte: Text */}
+            {/* Rechte Spalte: Text (Mobil unter Headline, Desktop rechts daneben) */}
             {text && (
               <section className="flex flex-col gap-2 flex-1">
-                {/* Platzhalter für Accent, damit Headline/Text immer auf gleicher Höhe */}
-                {accent && <div style={{ height: 18 + 24 + 41.6 }} />}
+                {/* Platzhalter für Accent, damit Headline/Text immer auf gleicher Höhe (nur Desktop) */}
+                <div className="hidden-mobile">
+                  {accent && <div style={{ height: 18 + 24 + 41.6 }} />}
+                </div>
                 <p className="text-xs fw-700 uppercase tracking-widest pb-1">
                   <span className="opacity-60">
                     {text.label.replace(" ", " - ")} -{" "}
                   </span>
                   <span className="opacity-90">{text.fontName}</span>
                 </p>
-                {/* Texte: alle Weights nebeneinander */}
+                {/* Texte: nur fw-400 auf Mobil, beide auf Desktop */}
                 {textSizes.map((size) => (
                   <div
                     key={size}
@@ -335,14 +339,16 @@ export default function FontsDevPage() {
                     >
                       {size}
                     </span>
-                    {weights.map((fw) => (
-                      <div
-                        key={fw}
-                        className={`${text.fontClass} ${size} ${fw} flex-1`}
-                      >
-                        Lorem ipsum dolor
-                      </div>
-                    ))}
+                    <div
+                      className={`flex-1 ${size} fw-400 ${text.fontClass} block md:inline-block`}
+                    >
+                      Lorem ipsum dolor
+                    </div>
+                    <div
+                      className={`flex-1 ${size} fw-700 ${text.fontClass} hidden-mobile`}
+                    >
+                      Lorem ipsum dolor
+                    </div>
                   </div>
                 ))}
               </section>
@@ -350,79 +356,6 @@ export default function FontsDevPage() {
           </div>
         );
       })}
-      {/* Neue Zeile: alle vX-Text-Varianten nebeneinander */}
-      <div className="flex gap-6 pb-12" style={{ flexDirection: "column" }}>
-        <span
-          className="opacity-50 shrink-0"
-          style={{ fontSize: "12px", width: "48px" }}
-        >
-          Accent
-        </span>
-        {fontVariants
-          .filter((v) => v.type === "accent")
-          .map((v) => (
-            <div
-              key={v.fontClass}
-              style={{
-                display: "flex",
-                gap: "12px",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <div className={`${v.fontClass} h5 fw-700`}>Accent Example</div>
-              <div>{v.fontName}</div>
-            </div>
-          ))}
-        <span
-          className="opacity-50 shrink-0"
-          style={{ fontSize: "12px", width: "48px" }}
-        >
-          Headline
-        </span>
-        {fontVariants
-          .filter((v) => v.type === "headline")
-          .map((v) => (
-            <div
-              key={v.fontClass}
-              style={{
-                display: "flex",
-                gap: "12px",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <div className={`${v.fontClass} h3 fw-700`}>
-                4lpha Überschrift
-              </div>
-              <div>{v.fontName}</div>
-            </div>
-          ))}
-        <span
-          className="opacity-50 shrink-0"
-          style={{ fontSize: "12px", width: "48px" }}
-        >
-          Text
-        </span>
-        {fontVariants
-          .filter((v) => v.type === "text")
-          .map((v) => (
-            <div
-              key={v.fontClass}
-              style={{
-                display: "flex",
-                gap: "12px",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <div className={`${v.fontClass} text-xxl fw-400`}>
-                Lorem ipsum dolor sit amet
-              </div>
-              <div>{v.fontName}</div>
-            </div>
-          ))}
-      </div>
     </div>
   );
 }

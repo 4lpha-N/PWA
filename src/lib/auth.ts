@@ -18,8 +18,6 @@ setPersistence(auth, browserLocalPersistence).catch((error: unknown) => {
   console.error("Firebase auth persistence setup failed", error);
 });
 
-
-
 export const signInWithGooglePopup = () => {
   const provider = new GoogleAuthProvider();
   return signInWithPopup(auth, provider);

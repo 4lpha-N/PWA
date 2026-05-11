@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { PageWrapper } from "../../pages/_PageWrapper";
 import {
   AppBar,

@@ -45,10 +45,20 @@ const shouldFallbackToRedirect = (error: unknown) => {
 
 export const useAuth = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChange((user) => {
       setCurrentUser(user);
+      if (!user) {
+        setRole(null);
+        return;
+      }
+      // Claims einmalig nach Login laden
+      user.getIdTokenResult().then((result) => {
+        setRole((result.claims.role as string) ?? null);
+        console.warn("Rollen: ", result.claims.role);
+      }).catch(() => setRole(null));
     });
     return unsubscribe;
   }, []);
@@ -125,6 +135,7 @@ export const useAuth = () => {
 
   return {
     currentUser,
+    role,
     isLoggedIn: Boolean(currentUser),
     loginWithGoogle,
     logout,

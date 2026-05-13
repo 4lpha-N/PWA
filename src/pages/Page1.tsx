@@ -1,12 +1,10 @@
 import { PageWrapper } from "./_PageWrapper";
-// import { useAppContext } from "../context/app-context";
 import { Grid, Box, useMediaQuery } from "@mui/material";
 import { Backlight } from "@/components/ui/backlight";
 import { MagicCard } from "@/components/ui/magic-card";
 import OPShip from "../assets/op-ship.jpg";
-import Font from "@/components/custom/Font";
-// import FontsDevPage from "@/components/dev/fonts";
-
+import { AnimeInfoScraper } from "@/components/custom/AnimeInfoScraper";
+import { RequestRole } from "@/components/custom/RequestRole";
 interface MagicCardProps {
   gradientSize: number;
   mode: "gradient" | undefined;
@@ -16,7 +14,6 @@ interface MagicCardProps {
 }
 
 export default function Page1() {
-  // const { labels } = useAppContext();
   const isMobile = useMediaQuery("(max-width:599px)");
 
   const magicCardProps: MagicCardProps = {
@@ -35,21 +32,13 @@ export default function Page1() {
   };
 
   const cards = [
-    {
-      id: 1,
-      image: OPShip,
-      offset: { xs: 0, sm: 1, md: 2 },
-    },
-    {
-      id: 2,
-      image: OPShip,
-      offset: { xs: 0, sm: 2, md: 2 },
-    },
+    { id: 1, image: OPShip, offset: { xs: 0, sm: 1, md: 2 } },
+    { id: 2, image: OPShip, offset: { xs: 0, sm: 2, md: 2 } },
   ];
 
   return (
     <PageWrapper>
-      {/* <div>{labels.page1}</div> */}
+      {/* ── Originaler Inhalt ── */}
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
         {cards.map((card) => (
           <Grid
@@ -74,16 +63,12 @@ export default function Page1() {
               >
                 <Box
                   component="img"
-                  src={OPShip}
+                  src={card.image}
                   alt="OP Ship"
                   sx={{
                     width: "100%",
                     aspectRatio: "16/9",
                     objectFit: "cover",
-                    // transition: "transform 0.3s ease",
-                    // "&:hover": {
-                    //   transform: "scale(1.25)",
-                    // },
                   }}
                 />
               </MagicCard>
@@ -91,19 +76,14 @@ export default function Page1() {
           </Grid>
         ))}
       </Grid>
-      <Font type="headline" size="xxl" weight={700} style={{ marginTop: 40 }}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
-        urna eu tincidunt consectetur, nisi nisl aliquam enim, vitae porta
-        sapien enim nec dui. Pellentesque habitant morbi tristique senectus et
-        netus et malesuada fames ac turpis egestas. Nullam ac erat at erat
-        dictum cursus. Etiam euismod, urna eu tincidunt consectetur, nisi nisl
-        aliquam enim, vitae porta sapien enim nec dui. Pellentesque habitant
-        morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-        Nullam ac erat at erat dictum cursus. Etiam euismod urna eu tincidunt.
-      </Font>
-      {/* <div style={{ marginTop: 40 }}>
-        <FontsDevPage />
-      </div> */}
+
+      {/* ── Sonderrechte beantragen ── */}
+      <div style={{ padding: "16px 0" }}>
+        <RequestRole />
+      </div>
+
+      {/* ── Anime Info Scraper ── */}
+      <AnimeInfoScraper />
     </PageWrapper>
   );
 }

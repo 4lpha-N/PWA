@@ -5,14 +5,20 @@ import {
   doc,
   getDoc,
   getDocs,
-  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
   setDoc,
   updateDoc,
   type DocumentData,
 } from "firebase/firestore";
 import { firebaseApp } from "@/lib/firebase";
 
-export const db = getFirestore(firebaseApp);
+export const db = initializeFirestore(firebaseApp, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager(), // mehrere Tabs gleichzeitig
+  }),
+});
 
 export const col = (path: string) => collection(db, path);
 

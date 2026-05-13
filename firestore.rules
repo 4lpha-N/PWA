@@ -4,5 +4,15 @@ service cloud.firestore {
     match /healthcheck/{docId} {
       allow read, write: if true;
     }
+
+    // Globaler Anime-Cache: jeder eingeloggte Nutzer darf lesen und schreiben
+    match /animes/{animeId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Nutzer-eigene Daten: nur der jeweilige Nutzer selbst
+    match /users/{userId}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
   }
 }

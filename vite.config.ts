@@ -21,6 +21,28 @@ export default defineConfig(({ mode }) => {
   return {
     base: appBasePath,
     plugins: [
+      // Dev-CORS-Proxy: GET /proxy?url=<encodedUrl> → fetcht serverseitig und gibt HTML zurück
+      {
+        name: 'cors-proxy',
+        configureServer(server) {
+          server.middlewares.use('/proxy', async (req, res, next) => {
+            const rawUrl = new URL(req.url ?? '', 'http://localhost').searchParams.get('url')
+            if (!rawUrl) return next()
+            try {
+              const response = await fetch(rawUrl, {
+                headers: { 'User-Agent': 'Mozilla/5.0 (compatible; dev-proxy/1.0)' },
+              })
+              const html = await response.text()
+              res.setHeader('Content-Type', 'text/html; charset=utf-8')
+              res.end(html)
+            } catch (err) {
+              res.statusCode = 502
+              res.end(String(err))
+            }
+          })
+        },
+      },
+
       fontDisplayOptionalPlugin,
       react(),
       tsconfigPaths(),

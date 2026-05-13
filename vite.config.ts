@@ -3,6 +3,16 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
+// Ersetzt font-display: swap durch optional in @fontsource Dateien (verhindert CLS)
+const fontDisplayOptionalPlugin = {
+  name: 'fontsource-display-optional',
+  transform(code: string, id: string) {
+    if (id.includes('@fontsource') && id.endsWith('.css')) {
+      return { code: code.replace(/font-display:\s*swap/g, 'font-display: optional') }
+    }
+  },
+}
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -11,6 +21,7 @@ export default defineConfig(({ mode }) => {
   return {
     base: appBasePath,
     plugins: [
+      fontDisplayOptionalPlugin,
       react(),
       tsconfigPaths(),
       VitePWA({

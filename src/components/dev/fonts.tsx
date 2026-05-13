@@ -271,7 +271,7 @@ export default function FontsDevPage() {
                       Accent
                     </span>
                     <div className={`${accent.fontClass} h5 fw-700 flex-1`}>
-                      Accent Example
+                      4lpha Accent
                     </div>
                   </div>
                 </>

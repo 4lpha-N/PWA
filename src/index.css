@@ -1,6 +1,78 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
+
+/* Self-hosted fonts via @fontsource (kein FOUT) */
+/* Michroma – nur 400 verfügbar */
+@import "@fontsource/michroma/400.css";
+/* Orbitron – 400, 700, 900 */
+@import "@fontsource/orbitron/400.css";
+@import "@fontsource/orbitron/700.css";
+@import "@fontsource/orbitron/900.css";
+/* Jura – 400, 700 (900 nicht verfügbar) */
+@import "@fontsource/jura/400.css";
+@import "@fontsource/jura/700.css";
+/* Gotu – nur 400 verfügbar */
+@import "@fontsource/gotu/400.css";
+/* Chakra Petch – 400, 700 (900 nicht verfügbar) */
+@import "@fontsource/chakra-petch/400.css";
+@import "@fontsource/chakra-petch/700.css";
+/* Exo 2 – 400, 700, 900 */
+@import "@fontsource/exo-2/400.css";
+@import "@fontsource/exo-2/700.css";
+@import "@fontsource/exo-2/900.css";
+
+/* font-display: block – überschreibt swap aus @fontsource, verhindert CLS */
+/* Text ist kurz unsichtbar statt mit falschen Fallback-Metriken gerendert */
+@font-face {
+  font-family: 'Michroma'; font-style: normal; font-weight: 400; font-display: block;
+  src: url('@fontsource/michroma/files/michroma-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Orbitron'; font-style: normal; font-weight: 400; font-display: block;
+  src: url('@fontsource/orbitron/files/orbitron-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Orbitron'; font-style: normal; font-weight: 700; font-display: block;
+  src: url('@fontsource/orbitron/files/orbitron-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Orbitron'; font-style: normal; font-weight: 900; font-display: block;
+  src: url('@fontsource/orbitron/files/orbitron-latin-900-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Jura'; font-style: normal; font-weight: 400; font-display: block;
+  src: url('@fontsource/jura/files/jura-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Jura'; font-style: normal; font-weight: 700; font-display: block;
+  src: url('@fontsource/jura/files/jura-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Gotu'; font-style: normal; font-weight: 400; font-display: block;
+  src: url('@fontsource/gotu/files/gotu-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Chakra Petch'; font-style: normal; font-weight: 400; font-display: block;
+  src: url('@fontsource/chakra-petch/files/chakra-petch-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Chakra Petch'; font-style: normal; font-weight: 700; font-display: block;
+  src: url('@fontsource/chakra-petch/files/chakra-petch-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Exo 2'; font-style: normal; font-weight: 400; font-display: block;
+  src: url('@fontsource/exo-2/files/exo-2-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Exo 2'; font-style: normal; font-weight: 700; font-display: block;
+  src: url('@fontsource/exo-2/files/exo-2-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Exo 2'; font-style: normal; font-weight: 900; font-display: block;
+  src: url('@fontsource/exo-2/files/exo-2-latin-900-normal.woff2') format('woff2');
+}
+
+
 
 @tailwind base;
 
@@ -8,42 +80,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --font-sans: 'Inter Variable', sans-serif; */
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: 'Inter Variable', sans-serif;
-  --font-v1-headline: 'Orbitron', sans-serif;
-  --font-v1-text: 'Exo 2', sans-serif;
-  --font-v2-headline: 'Michroma', sans-serif;
-  --font-v2-text: 'Chakra Petch', sans-serif;
-  --font-v3-headline: 'Oxanium', sans-serif;
-  --font-v3-text: 'Inter', sans-serif;
-  --font-v4-headline: 'Genos', sans-serif;
-  --font-v4-text: 'Manrope', sans-serif;
-  --font-v5-accent: 'Sacramento', cursive;
-  --font-v5-headline: 'Aboreto', cursive;
-  --font-v5-text: 'Gotu', sans-serif;
-  --font-v6-headline: 'Quattrocento', serif;
-  --font-v6-text: 'Questrial', sans-serif;
-  --font-v7-accent: 'PT Sans', sans-serif;
-  --font-v7-headline: 'Teko', sans-serif;
-  --font-v7-text: 'IBM Plex Sans Condensed', 'IBM Plex Sans', Arial, sans-serif;
-  --font-v8-accent: 'Yellowtail', cursive;
-  --font-v8-headline: 'Fjalla One', sans-serif;
-  --font-v8-text: 'Source Sans Pro', Arial, sans-serif;
-  --font-v9-headline: 'Fraunces', serif;
-  --font-v9-text: 'Poppins', sans-serif;
-  --font-v10-headline: 'Corben', cursive;
-  --font-v10-text: 'Montserrat', sans-serif;
-  --font-v11-headline: 'Lexend', sans-serif;
-  --font-v11-text: 'Zilla Slab', serif;
-  --font-v12-headline: 'Marcellus', serif;
-  --font-v12-text: 'DM Sans', Arial, sans-serif;
-  --font-v13-headline: 'Sniglet', cursive;
-  --font-v13-text: 'M PLUS Rounded 1c', 'M PLUS Rounded 1c Regular', Arial, sans-serif;
-  --font-v14-headline: 'Lato', sans-serif;
-  --font-v14-text: 'Merriweather', serif;
-  --font-v15-headline: 'Urbanist', sans-serif;
-  --font-v15-text: 'Red Hat Display', Arial, sans-serif;
+  --font-sans: 'Chakra Petch', sans-serif; /* Gotu, Exo 2 */
+  --font-headline: 'Michroma', sans-serif;
+  --font-headline2: 'Orbitron', sans-serif;
+  --font-text: 'Chakra Petch', sans-serif;
+  --font-text2: 'Gotu', sans-serif;
+  --font-accent: 'Jura', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -83,41 +128,6 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 }
-
-/* Font-Familien-Klassen für v1–v15 */
-.font-v1-headline { font-family: var(--font-v1-headline); }
-.font-v1-text { font-family: var(--font-v1-text); }
-.font-v2-headline { font-family: var(--font-v2-headline); }
-.font-v2-text { font-family: var(--font-v2-text); }
-.font-v3-headline { font-family: var(--font-v3-headline); }
-.font-v3-text { font-family: var(--font-v3-text); }
-.font-v4-headline { font-family: var(--font-v4-headline); }
-.font-v4-text { font-family: var(--font-v4-text); }
-.font-v5-accent { font-family: var(--font-v5-accent); }
-.font-v5-headline { font-family: var(--font-v5-headline); }
-.font-v5-text { font-family: var(--font-v5-text); }
-.font-v6-headline { font-family: var(--font-v6-headline); }
-.font-v6-text { font-family: var(--font-v6-text); }
-.font-v7-accent { font-family: var(--font-v7-accent); }
-.font-v7-headline { font-family: var(--font-v7-headline); }
-.font-v7-text { font-family: var(--font-v7-text); }
-.font-v8-accent { font-family: var(--font-v8-accent); }
-.font-v8-headline { font-family: var(--font-v8-headline); }
-.font-v8-text { font-family: var(--font-v8-text); }
-.font-v9-headline { font-family: var(--font-v9-headline); }
-.font-v9-text { font-family: var(--font-v9-text); }
-.font-v10-headline { font-family: var(--font-v10-headline); }
-.font-v10-text { font-family: var(--font-v10-text); }
-.font-v11-headline { font-family: var(--font-v11-headline); }
-.font-v11-text { font-family: var(--font-v11-text); }
-.font-v12-headline { font-family: var(--font-v12-headline); }
-.font-v12-text { font-family: var(--font-v12-text); }
-.font-v13-headline { font-family: var(--font-v13-headline); }
-.font-v13-text { font-family: var(--font-v13-text); }
-.font-v14-headline { font-family: var(--font-v14-headline); }
-.font-v14-text { font-family: var(--font-v14-text); }
-.font-v15-headline { font-family: var(--font-v15-headline); }
-.font-v15-text { font-family: var(--font-v15-text); }
 
 :root {
     --background: oklch(1 0 0);
@@ -206,11 +216,18 @@
   .fw-700 { font-weight: 700; }
   .fw-900 { font-weight: 900; }
 
+  /* Font Families – explizit damit Tailwind JIT sie immer generiert */
+  .font-headline  { font-family: 'Michroma', sans-serif; }
+  .font-headline2 { font-family: 'Orbitron', sans-serif; }
+  .font-text      { font-family: 'Chakra Petch', sans-serif; }
+  .font-text2     { font-family: 'Gotu', sans-serif; }
+  .font-accent    { font-family: 'Jura', sans-serif; }
+
   /* Headlines h1–h6 */
-  .h1 { font-size: 4rem;    line-height: 1.1;  letter-spacing: -0.02em; } /* 64px */
-  .h2 { font-size: 3.5rem;  line-height: 1.15; letter-spacing: -0.02em; } /* 56px */
-  .h3 { font-size: 3rem;    line-height: 1.2;  letter-spacing: -0.01em; } /* 48px */
-  .h4 { font-size: 2.5rem;  line-height: 1.25; letter-spacing: -0.01em; } /* 40px */
+  .h1 { font-size: 4rem;    line-height: 1.1;  } /* 64px */
+  .h2 { font-size: 3.5rem;  line-height: 1.15; } /* 56px */
+  .h3 { font-size: 3rem;    line-height: 1.2;  } /* 48px */
+  .h4 { font-size: 2.5rem;  line-height: 1.25; } /* 40px */
   .h5 { font-size: 2rem;    line-height: 1.3;  } /* 32px */
   .h6 { font-size: 1.5rem;  line-height: 1.35; } /* 24px */
 
@@ -227,3 +244,37 @@
     animation: none;
     mix-blend-mode: normal;
 }
+
+/* --font-v1-headline: 'Orbitron', sans-serif;
+  --font-v1-text: 'Exo 2', sans-serif;
+  --font-v2-headline: 'Michroma', sans-serif;
+  --font-v2-text: 'Chakra Petch', sans-serif;
+  --font-v3-headline: 'Oxanium', sans-serif;
+  --font-v3-text: 'Inter', sans-serif;
+  --font-v4-headline: 'Genos', sans-serif;
+  --font-v4-text: 'Manrope', sans-serif;
+  --font-v5-accent: 'Sacramento', cursive;
+  --font-v5-headline: 'Aboreto', cursive;
+  --font-v5-text: 'Gotu', sans-serif;
+  --font-v6-headline: 'Quattrocento', serif;
+  --font-v6-text: 'Questrial', sans-serif;
+  --font-v7-accent: 'PT Sans', sans-serif;
+  --font-v7-headline: 'Teko', sans-serif;
+  --font-v7-text: 'IBM Plex Sans Condensed', 'IBM Plex Sans', Arial, sans-serif;
+  --font-v8-accent: 'Yellowtail', cursive;
+  --font-v8-headline: 'Fjalla One', sans-serif;
+  --font-v8-text: 'Source Sans Pro', Arial, sans-serif;
+  --font-v9-headline: 'Fraunces', serif;
+  --font-v9-text: 'Poppins', sans-serif;
+  --font-v10-headline: 'Corben', cursive;
+  --font-v10-text: 'Montserrat', sans-serif;
+  --font-v11-headline: 'Lexend', sans-serif;
+  --font-v11-text: 'Zilla Slab', serif;
+  --font-v12-headline: 'Marcellus', serif;
+  --font-v12-text: 'DM Sans', Arial, sans-serif;
+  --font-v13-headline: 'Sniglet', cursive;
+  --font-v13-text: 'M PLUS Rounded 1c', 'M PLUS Rounded 1c Regular', Arial, sans-serif;
+  --font-v14-headline: 'Lato', sans-serif;
+  --font-v14-text: 'Merriweather', serif;
+  --font-v15-headline: 'Urbanist', sans-serif;
+  --font-v15-text: 'Red Hat Display', Arial, sans-serif; */

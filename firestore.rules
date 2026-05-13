@@ -1,18 +1,33 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /healthcheck/{docId} {
-      allow read, write: if true;
+
+		// Role User Requests
+    match /roleRequests/{userId} {
+      allow read, create: if request.auth != null
+                          && request.auth.uid == userId;
+      allow update: if request.auth.token.role == "admin";
     }
 
-    // Globaler Anime-Cache: jeder eingeloggte Nutzer darf lesen und schreiben
+    // Globaler Anime-Cache – jeder eingeloggte Nutzer darf lesen & schreiben
     match /animes/{animeId} {
-      allow read, write: if request.auth != null;
+      allow read:  if request.auth != null;
+      allow write: if request.auth != null
+                   && (request.auth.token.role == "user"
+                       || request.auth.token.role == "admin");
     }
 
-    // Nutzer-eigene Daten: nur der jeweilige Nutzer selbst
-    match /users/{userId}/{document=**} {
+    // Nutzer-Daten – nur der eigene Account
+    match /user/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Nutzer-Anime-Liste
+      match /animes/{animeId} {
+        allow read, write: if request.auth.uid == userId
+                           && (request.auth.token.role == "user"
+                               || request.auth.token.role == "admin");
+      }
     }
+
   }
 }

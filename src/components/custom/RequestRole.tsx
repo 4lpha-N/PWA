@@ -22,11 +22,13 @@ const SlideUp = forwardRef(function SlideUp(
 });
 
 export function RequestRole() {
-  const { currentUser } = useAuth();
+  const { currentUser, isUser } = useAuth();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  if (!currentUser || isUser) return null;
 
   const handleOpen = () => setOpen(true);
   const handleConfirm = async () => {

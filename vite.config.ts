@@ -20,6 +20,12 @@ export default defineConfig(({ mode }) => {
 
   return {
     base: appBasePath,
+    server: {
+      headers: {
+        // Erlaubt Google Auth Popup window.close() aufzurufen
+        'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+      },
+    },
     plugins: [
       // Dev-CORS-Proxy: GET /proxy?url=<encodedUrl> → fetcht serverseitig und gibt HTML zurück
       {

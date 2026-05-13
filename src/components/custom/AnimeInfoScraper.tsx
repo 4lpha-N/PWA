@@ -8,12 +8,14 @@ import { addAnimeToUserList } from "@/lib/animeStorage";
 const PROXY_BASE = "/proxy";
 
 export function AnimeInfoScraper() {
-  const { currentUser } = useAuth();
+  const { currentUser, isUser } = useAuth();
   const [url, setUrl] = useState("https://aniworld.to/anime/stream/one-piece");
   const [data, setData] = useState<AnimeInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savedToFirestore, setSavedToFirestore] = useState(false);
+
+  if (!currentUser || !isUser) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

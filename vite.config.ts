@@ -82,5 +82,19 @@ export default defineConfig(({ mode }) => {
         },
       }),
     ],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Firebase in eigene Chunks aufteilen
+            'firebase-app': ['firebase/app'],
+            'firebase-auth': ['firebase/auth'],
+            'firebase-firestore': ['firebase/firestore'],
+            // React-Kern
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          },
+        },
+      },
+    },
   }
 })

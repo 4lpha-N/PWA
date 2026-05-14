@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { getAnimeInfo, type AnimeInfo } from "@/lib/getAnimeInfo";
 import { addAnimeToUserList } from "@/lib/animeStorage";
+import AnimeCard from "@/components/custom/AnimeCard";
 
 // Für Dev: Vite CORS-Proxy (/proxy?url=...).
 // Für Production: URL einer eigenen Serverless-Function eintragen.
@@ -104,7 +105,23 @@ export function AnimeInfoScraper() {
       )}
 
       {data && (
-        <div className="space-y-6">
+        <AnimeCard
+          expand={false}
+          title={data.title ?? "–"}
+          subtitle={
+            data.seasons.count +
+            " Staffeln / " +
+            data.episodes.count +
+            " Folgen"
+          }
+          img={data.imageUrl ?? ""}
+          content={data.description.short ?? ""}
+          moreContent={data.description.full || JSON.stringify(data, null, 2)}
+        />
+      )}
+
+      {data && (
+        <div className="space-y-6" style={{ marginTop: 64 }}>
           <div className="flex gap-6">
             {data.imageUrl && (
               <img

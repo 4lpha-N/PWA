@@ -44,9 +44,9 @@ const sizeMap: Record<FontType, Record<string, string>> = {
 };
 
 const weightMap: Record<FontWeight, string> = {
-  400: "font-normal",
-  700: "font-bold",
-  900: "font-black",
+  400: "fw-400",
+  700: "fw-700",
+  900: "fw-900",
 };
 
 const Font: React.FC<FontProps> = ({

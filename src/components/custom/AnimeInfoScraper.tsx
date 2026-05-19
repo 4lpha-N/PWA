@@ -105,19 +105,21 @@ export function AnimeInfoScraper() {
       )}
 
       {data && (
-        <AnimeCard
-          expand={false}
-          title={data.title ?? "–"}
-          subtitle={
-            data.seasons.count +
-            " Staffeln / " +
-            data.episodes.count +
-            " Folgen"
-          }
-          img={data.imageUrl ?? ""}
-          content={data.description.short ?? ""}
-          moreContent={data.description.full || JSON.stringify(data, null, 2)}
-        />
+        <div style={{ marginTop: 24 }}>
+          <AnimeCard
+            expand={false}
+            title={data.title ?? "–"}
+            subtitle={
+              data.seasons.count +
+              " Staffeln / " +
+              data.episodes.count +
+              " Folgen"
+            }
+            img={data.imageUrl ?? ""}
+            content={data.description.short ?? ""}
+            moreContent={data.description.full || JSON.stringify(data, null, 2)}
+          />
+        </div>
       )}
 
       {data && (

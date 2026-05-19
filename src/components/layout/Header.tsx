@@ -1,17 +1,10 @@
 import { PageWrapper } from "../../pages/_PageWrapper";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Box,
-  Button,
-  Stack,
-  Avatar,
-} from "@mui/material";
+import { AppBar, Toolbar, Box, Button, Stack, Avatar } from "@mui/material";
 import Login from "@mui/icons-material/Login";
 import Logout from "@mui/icons-material/Logout";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import { useAuth } from "@/hooks/useAuth";
+import Font from "../custom/Font";
 // import { useSnackbar } from "notistack";
 
 export default function Header() {
@@ -57,9 +50,9 @@ export default function Header() {
           disableGutters
           sx={{ display: "flex", justifyContent: "space-between" }}
         >
-          <Typography variant="h6" component="h6" sx={{ fontWeight: "bold" }}>
+          <Font type="headline" size="h5" weight={400} v={1}>
             4lpha
-          </Typography>
+          </Font>
           <Stack direction="row" spacing={1} alignItems="center">
             <Button
               variant={isLoggedIn ? "text" : "text"}

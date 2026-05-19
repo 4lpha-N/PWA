@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
       user
-        .getIdTokenResult()
+        .getIdTokenResult(true)
         .then((result) => {
           setRole((result.claims.role as string) ?? null);
         })

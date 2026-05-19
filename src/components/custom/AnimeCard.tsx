@@ -14,6 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Font from "./Font";
 import { Backlight } from "../ui/backlight";
+import { useAppContext } from "@/context/app-context";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -21,26 +22,17 @@ interface ExpandMoreProps extends IconButtonProps {
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
-  return <IconButton {...other} />;
+  return (
+    <IconButton
+      {...other}
+      style={{ transform: expand ? "rotate(180deg)" : "rotate(0deg)" }}
+    />
+  );
 })(({ theme }) => ({
   marginLeft: "auto",
   transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
   }),
-  variants: [
-    {
-      props: ({ expand }) => !expand,
-      style: {
-        transform: "rotate(0deg)",
-      },
-    },
-    {
-      props: ({ expand }) => !!expand,
-      style: {
-        transform: "rotate(180deg)",
-      },
-    },
-  ],
 }));
 
 interface AnimeCardProps {
@@ -61,6 +53,7 @@ export default function AnimeCard({
   moreContent,
 }: AnimeCardProps) {
   const [expanded, setExpanded] = React.useState(expand);
+  const { theme } = useAppContext();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -70,15 +63,16 @@ export default function AnimeCard({
     blur: 17,
     saturate: 3,
     contrast: 1,
-    borderRadius: 15,
+    borderRadius: 16,
   };
 
   return (
     <Card
       elevation={1}
       sx={{
-        padding: "8px 16px",
-        background: "var(--background-d1)",
+        padding: "8px",
+        background:
+          theme === "dark" ? "var(--background-1)" : "var(--background-2)",
         color: "var(--foreground)",
       }}
     >
@@ -98,9 +92,9 @@ export default function AnimeCard({
               variant="square"
               sx={{
                 aspectRatio: "2/3",
-                width: 150,
+                width: 175,
                 height: "auto",
-                borderRadius: 1,
+                borderRadius: "16px",
                 background: "var(--background)",
               }}
             >
@@ -120,8 +114,8 @@ export default function AnimeCard({
         }
         subheader={
           <Font type="text" size="md">
-            <div>{subtitle}</div>
-            <div style={{ marginTop: 24 }}>{content}</div>
+            <span style={{ display: "block" }}>{subtitle}</span>
+            <span style={{ display: "block", marginTop: 24 }}>{content}</span>
           </Font>
         }
         sx={{
@@ -130,6 +124,7 @@ export default function AnimeCard({
             color: "var(--foreground)",
             mt: 1,
           },
+          gap: 3,
         }}
       />
       {/* <CardMedia component="img" height="194" image={img} alt={title} /> */}

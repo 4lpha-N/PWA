@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "deploy": "node scripts/deploy.mjs",
     "deploy:firebase": "npm run deploy -- --firebase",
-    "deploy:github": "npm run deploy -- --github"
+    "deploy:github": "npm run deploy -- --github",
+    "deploy:worker": "cd worker && npx wrangler deploy"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

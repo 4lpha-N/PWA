@@ -21,6 +21,21 @@ Für den Build in GitHub Actions müssen dieselben Vite-Variablen als Repository
 - `VITE_FIREBASE_MESSAGING_SENDER_ID`
 - `VITE_FIREBASE_APP_ID`
 
+### Firebase Hosting + Server Proxy
+
+Für das Scraping braucht die App in Production einen Server-Proxy, weil Browser keine fremden Seiten direkt fetchen dürfen.
+
+Diese Repo enthält dafür eine Firebase Function:
+
+- Function: `proxy`
+- Hosting-Rewrite: `/proxy` → Function
+
+Beim Firebase-Deploy werden jetzt Hosting und Functions gemeinsam veröffentlicht:
+
+- `npm run deploy:firebase`
+
+Der Proxy ist absichtlich auf `aniworld.to` und Subdomains begrenzt.
+
 Verfügbare Module:
 
 - `src/lib/auth.ts` (Firebase Auth + Email/Passwort Helfer)

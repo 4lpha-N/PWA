@@ -5,8 +5,9 @@ import { addAnimeToUserList } from "@/lib/animeStorage";
 import AnimeCard from "@/components/custom/AnimeCard";
 
 // Für Dev: Vite CORS-Proxy (/proxy?url=...).
-// Für Production: URL einer eigenen Serverless-Function eintragen.
-const PROXY_BASE = "/proxy";
+// Für Production: Cloudflare Worker URL als VITE_PROXY_BASE_URL setzen,
+// z. B. https://anime-proxy.<dein-name>.workers.dev
+const PROXY_BASE = import.meta.env.VITE_PROXY_BASE_URL ?? "/proxy";
 
 export function AnimeInfoScraper() {
   const { currentUser, isUser } = useAuth();
@@ -73,7 +74,11 @@ export function AnimeInfoScraper() {
           disabled={loading}
           className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
         >
-          {loading ? "Laden…" : "Abrufen"}
+          {loading ? (
+            <span className="inline-flex items-center gap-2">Laden…</span>
+          ) : (
+            "Abrufen"
+          )}
         </button>
         {data && (
           <button

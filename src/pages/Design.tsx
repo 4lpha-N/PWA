@@ -8,6 +8,10 @@ type Variant = "primary" | "outline" | "alt";
 
 const VARIANTS: Variant[] = ["primary", "outline", "alt"];
 
+// Für Checkbox und Link: nur Primary (Akzent) und Secondary (Schwarz/Weiß je Theme)
+type SimpleVariant = "primary" | "secondary";
+const SIMPLE_VARIANTS: SimpleVariant[] = ["primary", "secondary"];
+
 const THEMES: { id: Theme; label: string }[] = [
   { id: "dark", label: "Dunkel" },
   { id: "red", label: "Akzent" },
@@ -226,6 +230,25 @@ function VariantGrid({
   );
 }
 
+function SimpleGrid({
+  render,
+}: {
+  render: (variant: SimpleVariant) => ReactNode;
+}) {
+  return (
+    <div className="vl-grid">
+      {SIMPLE_VARIANTS.map((variant) => (
+        <div className="vl-col" key={variant}>
+          <span className="vl-col__title">
+            {variant === "primary" ? "Primary" : "Secondary"}
+          </span>
+          {render(variant)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function SegToggle<T extends string | number>({
   options,
   value,
@@ -367,7 +390,7 @@ function VlCheck({
   defaultChecked,
   disabled,
 }: {
-  variant: Variant;
+  variant: SimpleVariant;
   label: string;
   defaultChecked?: boolean;
   disabled?: boolean;
@@ -385,6 +408,62 @@ function VlCheck({
       <span className="vl-check__box" aria-hidden="true" />
       <span className="vl-check__label">{label}</span>
     </label>
+  );
+}
+
+/* ---------- Toggle ---------- */
+
+function VlSwitch({
+  variant,
+  label,
+  defaultChecked,
+  disabled,
+}: {
+  variant: SimpleVariant;
+  label: string;
+  defaultChecked?: boolean;
+  disabled?: boolean;
+}) {
+  return (
+    <label
+      className={`vl-switch vl-switch--${variant}${disabled ? " is-disabled" : ""}`}
+    >
+      <input
+        type="checkbox"
+        role="switch"
+        className="vl-switch__input"
+        defaultChecked={defaultChecked}
+        disabled={disabled}
+      />
+      <span className="vl-switch__track" aria-hidden="true" />
+      <span className="vl-switch__label">{label}</span>
+    </label>
+  );
+}
+
+/* ---------- Link ---------- */
+
+function VlLink({
+  variant,
+  children,
+  disabled,
+}: {
+  variant: SimpleVariant;
+  children: ReactNode;
+  disabled?: boolean;
+}) {
+  const className = `vl-link vl-link--${variant}${disabled ? " is-disabled" : ""}`;
+  if (disabled) {
+    return (
+      <a className={className} role="link" aria-disabled="true">
+        {children}
+      </a>
+    );
+  }
+  return (
+    <a className={className} href="#" onClick={(e) => e.preventDefault()}>
+      {children}
+    </a>
   );
 }
 
@@ -544,8 +623,7 @@ export default function Design() {
           </Section>
 
           <Section title="Checkboxen">
-            <VariantGrid
-              theme={theme}
+            <SimpleGrid
               render={(variant) => (
                 <>
                   <VlCheck variant={variant} label="Standard" />
@@ -557,6 +635,37 @@ export default function Design() {
                     defaultChecked
                     disabled
                   />
+                </>
+              )}
+            />
+          </Section>
+
+          <Section title="Toggle">
+            <SimpleGrid
+              render={(variant) => (
+                <>
+                  <VlSwitch variant={variant} label="Aus" />
+                  <VlSwitch variant={variant} label="An" defaultChecked />
+                  <VlSwitch variant={variant} label="Deaktiviert" disabled />
+                  <VlSwitch
+                    variant={variant}
+                    label="Deaktiviert an"
+                    defaultChecked
+                    disabled
+                  />
+                </>
+              )}
+            />
+          </Section>
+
+          <Section title="Links">
+            <SimpleGrid
+              render={(variant) => (
+                <>
+                  <VlLink variant={variant}>Standard</VlLink>
+                  <VlLink variant={variant} disabled>
+                    Deaktiviert
+                  </VlLink>
                 </>
               )}
             />

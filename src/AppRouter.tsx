@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import App from "./App";
 import Home from "./pages/Home";
 import Page1 from "./pages/Page1";
+import Design from "./pages/Design";
 import Settings from "./pages/Settings";
 import { useAppContext } from "./context/app-context";
 
@@ -25,6 +26,7 @@ export default function AppRouter() {
                 <Switch location={location}>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/page1" component={Page1} />
+                  <Route exact path="/design" component={Design} />
                   <Route exact path="/settings" component={Settings} />
                 </Switch>
               </Box>

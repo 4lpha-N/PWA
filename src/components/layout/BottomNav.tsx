@@ -9,6 +9,7 @@ import { useAppContext } from "../../context/app-context";
 const navItems = [
   { label: "Home", value: "/", icon: <HomeIcon /> },
   { label: "Page1", value: "/page1", icon: <DescriptionIcon /> },
+  { label: "Design", value: "/design", icon: <DescriptionIcon /> },
   { label: "Settings", value: "/settings", icon: <SettingsIcon /> },
 ];
 

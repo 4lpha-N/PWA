@@ -1,0 +1,1225 @@
+@mixin cut($c: var(--cut)) {
+  clip-path: polygon(
+    0 0,
+    calc(100% - #{$c}) 0,
+    100% #{$c},
+    100% 100%,
+    #{$c} 100%,
+    0 calc(100% - #{$c})
+  );
+}
+
+// Innenfläche, um --bw (bzw. $o) eingerückt, mit passend verkleinerter Ecke
+@mixin cut-inner($c: var(--cut), $o: var(--bw)) {
+  @include cut(calc(#{$c} - 0.586 * #{$o}));
+}
+
+// ---------- Farbpalette: einzige Stelle für Farbwerte ----------
+$c-ink: #0f1923; // dunkler Grund / dunkle Schrift
+$c-ink-soft: #17232f; // Fläche auf dunklem Grund
+$c-bone: #ece8e1; // warmes Weiß (Theme 1)
+$c-white: #ffffff; // reines Weiß (Theme 2)
+$c-red: #ff4655; // Akzent / Grund Theme 2
+$c-red-deep: #e23a49; // Fläche auf rotem Grund
+$c-warn-dark: #ffb547; // Fehler auf dunklem Grund
+$c-warn-red: #ffe66d; // Fehler auf rotem Grund
+$c-paper: #f5f6f7; // Fläche auf weißem Grund
+$c-warn-light: #c76a00; // Fehler auf weißem Grund
+
+// Registrierte Farb-Tokens: nur so lassen sich Custom Properties animieren,
+// alle abgeleiteten Werte (Hintergründe, Ränder, Texte) laufen dadurch synchron.
+// Initialwerte = Theme 1.
+@property --bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink-soft;
+}
+@property --fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-bone;
+}
+@property --on-fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --primary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-red;
+}
+@property --on-primary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --primary-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-bone;
+}
+@property --on-primary-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --alt {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-red;
+}
+@property --on-alt {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --error {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-warn-dark;
+}
+@property --deco {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-red;
+}
+
+$theme-ease: 0.45s ease;
+
+.design-wrapper {
+  //   font-family: "Michroma", sans-serif;
+  --cut: 12px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  transition:
+    --bg $theme-ease,
+    --surface $theme-ease,
+    --fg $theme-ease,
+    --on-fg $theme-ease,
+    --primary $theme-ease,
+    --on-primary $theme-ease,
+    --primary-hover $theme-ease,
+    --on-primary-hover $theme-ease,
+    --alt $theme-ease,
+    --on-alt $theme-ease,
+    --error $theme-ease,
+    --deco $theme-ease;
+
+  // Eigene Hover-/Fokus-Transitions würden die Token-Animation verzögern
+  &.is-switching *,
+  &.is-switching *::before,
+  &.is-switching *::after {
+    transition: none !important;
+  }
+
+  // Theme 1: rot/weiß auf dunkel
+  &--dark {
+    --bg: #{$c-ink};
+    --surface: #{$c-ink-soft};
+    --fg: #{$c-bone};
+    --on-fg: #{$c-ink};
+    --primary: #{$c-red};
+    --on-primary: #{$c-ink};
+    --primary-hover: #{$c-bone};
+    --on-primary-hover: #{$c-ink};
+    --alt: #{$c-red};
+    --on-alt: #{$c-ink};
+    --error: #{$c-warn-dark};
+    --deco: #{$c-red};
+  }
+
+  // Theme 2: dunkel/weiß auf rot
+  &--red {
+    --bg: #{$c-red};
+    --surface: #{$c-red-deep};
+    --fg: #{$c-white};
+    --on-fg: #{$c-red};
+    --primary: #{$c-white};
+    --on-primary: #{$c-ink};
+    --primary-hover: #{$c-ink};
+    --on-primary-hover: #{$c-white};
+    --alt: #{$c-ink};
+    --on-alt: #{$c-white};
+    --error: #{$c-warn-red};
+    --deco: #{$c-ink};
+  }
+
+  // Theme 3: rot/dunkel auf weiß
+  &--light {
+    --bg: #{$c-white};
+    --surface: #{$c-paper};
+    --fg: #{$c-ink};
+    --on-fg: #{$c-white};
+    --primary: #{$c-red};
+    --on-primary: #{$c-white};
+    --primary-hover: #{$c-ink};
+    --on-primary-hover: #{$c-white};
+    --alt: #{$c-red};
+    --on-alt: #{$c-white};
+    --error: #{$c-warn-light};
+    --deco: #{$c-red};
+  }
+
+  --muted: color-mix(in srgb, var(--fg) 68%, transparent);
+  --line: color-mix(in srgb, var(--fg) 16%, transparent);
+  --deco-a: color-mix(in srgb, var(--deco) 16%, transparent);
+  --deco-b: color-mix(in srgb, var(--deco) 55%, transparent);
+  --deco-c: color-mix(in srgb, var(--deco) 8%, transparent);
+}
+
+/* ---------- Verzierungen ---------- */
+
+.vl-deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  animation: vl-deco-in 0.5s ease both;
+
+  &__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--deco-a) 1px, transparent 1px),
+      linear-gradient(90deg, var(--deco-a) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(135deg, #000 0%, transparent 65%);
+  }
+
+  &__slash {
+    position: absolute;
+    top: -10%;
+    height: 120%;
+    background: color-mix(in srgb, var(--deco) 9%, transparent);
+    transform: skewX(-25deg);
+
+    &--a {
+      right: 10%;
+      width: 9rem;
+    }
+    &--b {
+      right: calc(10% + 11rem);
+      width: 2.5rem;
+    }
+    &--c {
+      right: calc(10% + 15rem);
+      width: 6px;
+    }
+  }
+
+  &__ruler {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 20px;
+    background-image:
+      repeating-linear-gradient(
+        to bottom,
+        var(--deco-b) 0 1px,
+        transparent 1px 12px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        var(--deco-b) 0 2px,
+        transparent 2px 60px
+      );
+    background-size:
+      8px 100%,
+      18px 100%;
+    background-repeat: no-repeat;
+  }
+
+  &__stripes {
+    position: absolute;
+    top: 20px;
+    left: 5rem;
+    width: 7rem;
+    height: 2.5rem;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--deco-b) 0 3px,
+      transparent 3px 9px
+    );
+
+    &--br {
+      top: auto;
+      left: auto;
+      right: 5rem;
+      bottom: 20px;
+    }
+  }
+
+  &__corner {
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0 solid var(--deco-b);
+
+    &--tl {
+      top: 1rem;
+      left: 36px;
+      border-width: 2px 0 0 2px;
+    }
+    &--tr {
+      top: 1rem;
+      right: 1rem;
+      border-width: 2px 2px 0 0;
+    }
+    &--bl {
+      bottom: 1rem;
+      left: 36px;
+      border-width: 0 0 2px 2px;
+    }
+    &--br {
+      bottom: 1rem;
+      right: 1rem;
+      border-width: 0 2px 2px 0;
+    }
+  }
+}
+
+@keyframes vl-deco-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------- Decor-Varianten 2–9 (1 = oben) ---------- */
+
+// 2: Hex
+.vl-deco__hexfield {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--deco-a);
+  mask-image: radial-gradient(ellipse at 85% 15%, #000 0%, transparent 70%);
+}
+.vl-deco__hexbig {
+  position: absolute;
+  top: 3rem;
+  right: -3rem;
+  width: 20rem;
+  fill: none;
+  stroke: var(--deco-b);
+  stroke-width: 2;
+
+  polygon:last-child {
+    fill: var(--deco-a);
+    stroke: none;
+  }
+
+  &--sm {
+    top: auto;
+    right: auto;
+    bottom: 2rem;
+    left: 3rem;
+    width: 11rem;
+    stroke-dasharray: 6 6;
+  }
+}
+.vl-deco__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 6px;
+  background: var(--deco-b);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+// 3: HUD
+.vl-deco__scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--deco-c) 0 1px,
+    transparent 1px 4px
+  );
+  mask-image: linear-gradient(to bottom, #000, transparent 90%);
+}
+.vl-deco__glow {
+  position: absolute;
+  top: -10rem;
+  right: -10rem;
+  width: 34rem;
+  height: 34rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--deco) 22%, transparent),
+    transparent 70%
+  );
+}
+.vl-deco__rail {
+  position: absolute;
+  top: 12%;
+  left: 20px;
+  width: 6px;
+  height: 36%;
+  background: var(--deco-b);
+  clip-path: polygon(0 0, 100% 12px, 100% 100%, 0 calc(100% - 12px));
+}
+.vl-deco__tag {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--deco-b);
+
+  &--tl {
+    top: 20px;
+    left: 3rem;
+  }
+  &--br {
+    right: 1.5rem;
+    bottom: 20px;
+  }
+}
+
+// 4: Bänder
+.vl-deco__bands {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -35deg,
+    transparent 0 90px,
+    var(--deco-c) 90px 170px,
+    transparent 170px 210px,
+    var(--deco-a) 210px 216px
+  );
+  mask-image: linear-gradient(to bottom left, #000, transparent 75%);
+}
+.vl-deco__tri {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14rem;
+  height: 14rem;
+  background: var(--deco-a);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+
+  &--tl {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 0;
+    transform: rotate(180deg);
+  }
+}
+
+// 5: Punkte
+.vl-deco__dots {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(var(--deco-b) 1.5px, transparent 1.5px) 0 0 / 24px
+    24px;
+  mask-image:
+    radial-gradient(ellipse at 0% 100%, #000, transparent 55%),
+    radial-gradient(ellipse at 100% 0%, #000, transparent 55%);
+
+  &--bl {
+    mask-image: radial-gradient(ellipse at 0% 100%, #000, transparent 60%);
+  }
+  &--br {
+    mask-image: radial-gradient(ellipse at 100% 100%, #000, transparent 60%);
+  }
+}
+// 8: Inhalt innerhalb des Rahmens aus Variante 7
+.vl-deco__inner {
+  position: absolute;
+  inset: 1rem;
+  overflow: hidden;
+  @include cut(28px);
+}
+.vl-deco__bracket {
+  position: absolute;
+  width: 6rem;
+  height: 6rem;
+  border: 0 solid var(--deco-b);
+
+  &--tl {
+    top: 1.5rem;
+    left: 2.5rem;
+    border-width: 3px 0 0 3px;
+  }
+  &--tr {
+    top: 1.5rem;
+    right: 1.5rem;
+    border-width: 3px 3px 0 0;
+  }
+  &--bl {
+    bottom: 1.5rem;
+    left: 2.5rem;
+    border-width: 0 0 3px 3px;
+  }
+  &--br {
+    right: 1.5rem;
+    bottom: 1.5rem;
+    border-width: 0 3px 3px 0;
+  }
+}
+.vl-deco__plus {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: var(--deco-b);
+  }
+  &::before {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    margin-left: -1px;
+  }
+  &::after {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    margin-top: -1px;
+  }
+
+  &--a {
+    top: 18%;
+    left: 12%;
+  }
+  &--b {
+    top: 62%;
+    left: 30%;
+  }
+  &--c {
+    top: 30%;
+    right: 22%;
+  }
+  &--d {
+    top: 80%;
+    right: 8%;
+  }
+}
+
+// 6: Splitter
+.vl-deco__shard {
+  position: absolute;
+
+  &--a {
+    top: 0;
+    left: 0;
+    width: 30rem;
+    height: 18rem;
+    background: var(--deco-c);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+  &--b {
+    top: 0;
+    left: 0;
+    width: 18rem;
+    height: 10rem;
+    background: var(--deco-a);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+  &--c {
+    right: 0;
+    bottom: 0;
+    width: 34rem;
+    height: 22rem;
+    background: var(--deco-c);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+  &--d {
+    right: 0;
+    bottom: 0;
+    width: 20rem;
+    height: 13rem;
+    background: var(--deco-a);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+  &--e {
+    top: 30%;
+    right: 8%;
+    width: 5rem;
+    height: 60%;
+    background: var(--deco-c);
+    clip-path: polygon(40% 0, 100% 0, 60% 100%, 0 100%);
+  }
+}
+
+// 7: Rahmen
+.vl-deco__frame {
+  --bw: 2px;
+  position: absolute;
+  inset: 1rem;
+  background: var(--deco-b);
+  @include cut(28px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    background: var(--bg);
+    @include cut-inner(28px);
+  }
+}
+.vl-deco__notch {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  width: 14rem;
+  height: 8px;
+  margin-left: -7rem;
+  background: var(--deco-b);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 8px 100%);
+}
+.vl-deco__strip {
+  position: absolute;
+  left: 3rem;
+  right: 3rem;
+  height: 10px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--deco-b) 0 2px,
+    transparent 2px 10px
+  );
+
+  &--t {
+    top: 2rem;
+  }
+  &--b {
+    bottom: 2rem;
+  }
+}
+.vl-deco__ticks {
+  position: absolute;
+  top: 5rem;
+  bottom: 5rem;
+  width: 10px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--deco-b) 0 2px,
+    transparent 2px 14px
+  );
+
+  &--l {
+    left: 2rem;
+  }
+  &--r {
+    right: 2rem;
+  }
+}
+
+/* ---------- Layout ---------- */
+
+.vl-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem clamp(1.5rem, 4vw, 3rem) 4rem;
+}
+
+.vl-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.vl-eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.vl-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface);
+  @include cut(10px);
+
+  &__btn {
+    height: 34px;
+    padding: 0 18px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      color 0.2s;
+    @include cut(6px);
+
+    &:hover {
+      color: var(--fg);
+    }
+    &.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: inset 0 0 0 2px var(--fg);
+    }
+  }
+
+  &--compact &__btn {
+    min-width: 36px;
+    padding: 0 8px;
+  }
+}
+
+.vl-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  &__label {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+}
+
+.vl-section {
+  position: relative;
+  padding: 1.75rem 2rem 2rem;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  @include cut;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4px;
+    background: var(--primary);
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+  }
+}
+
+.vl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 2rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.vl-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+
+  &__title {
+    align-self: stretch;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  > .vl-field {
+    align-self: stretch;
+  }
+}
+
+/* ---------- Typografie ---------- */
+
+.vl-h1,
+.vl-h2,
+.vl-h3 {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.vl-h1 {
+  font-size: 48px;
+  line-height: 50px;
+  letter-spacing: 0.04em;
+}
+.vl-h2 {
+  font-size: 32px;
+  line-height: 34px;
+  letter-spacing: 0.08em;
+}
+.vl-h3 {
+  font-size: 22px;
+  line-height: 24px;
+  letter-spacing: 0.12em;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 9px;
+    height: 20px;
+    margin-right: 12px;
+    background: var(--primary);
+    transform: skewX(-20deg);
+  }
+}
+
+.vl-text-lg {
+  margin: 0;
+  font-size: 18px;
+  line-height: 28px;
+}
+.vl-text-sm {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.vl-type {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+
+  &__row {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  &__tag {
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+}
+
+/* ---------- Buttons ---------- */
+
+.vl-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14rem;
+  max-width: 100%;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: var(--b);
+  color: var(--t);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s;
+  --bw: 2px;
+  --gap: 0px;
+  --ofs: calc(var(--bw) + var(--gap));
+  @include cut;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    z-index: -1;
+  }
+
+  &::before {
+    background: var(--f);
+    @include cut-inner;
+  }
+
+  // Hover-Fläche fährt von links herein (transform statt clip-path: läuft auf dem Compositor, kein Flackern)
+  &::after {
+    inset: var(--ofs);
+    background: var(--hf);
+    @include cut-inner(var(--cut), var(--ofs));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    color: var(--ht);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  // clip-path schneidet outline ab: Fokus = Hover-Fläche + Ring in Kontrastfarbe mit Abstand
+  &:focus-visible {
+    --b: var(--ring);
+    --bw: 4px;
+    --gap: 2px;
+    outline: none;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: var(--primary);
+    --t: var(--on-primary);
+    --hf: var(--primary-hover);
+    --ht: var(--on-primary-hover);
+    --ring: var(--primary-hover);
+  }
+  &--outline {
+    --b: var(--fg);
+    --f: var(--surface);
+    --t: var(--fg);
+    --hf: var(--fg);
+    --ht: var(--on-fg);
+    --ring: var(--alt);
+  }
+  &--alt {
+    --b: var(--alt);
+    --f: var(--surface);
+    --t: var(--alt);
+    --hf: var(--alt);
+    --ht: var(--on-alt);
+    --ring: var(--fg);
+  }
+}
+
+/* ---------- Inputs / Select ---------- */
+
+.vl-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__label {
+    font-size: 0.75rem;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  &__box {
+    position: relative;
+    isolation: isolate;
+    background: var(--b);
+    --bw: 2px;
+    @include cut;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--bw);
+      z-index: -1;
+      background: var(--f);
+      transition: background 0.2s;
+      @include cut-inner;
+    }
+
+    // > schließt das disabled-<option> (Platzhalter) im Select aus
+    &:hover:not(:has(:focus-visible, > :disabled)) {
+      --f: var(--fh);
+    }
+
+    &:has(:focus-visible) {
+      --b: var(--ring);
+      --f: var(--ff);
+      --bw: 3px;
+    }
+  }
+
+  &__control {
+    display: block;
+    width: 100%;
+    padding: 14px 18px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--fg);
+    font: inherit;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 0.04em;
+
+    &::placeholder {
+      color: var(--muted);
+    }
+
+    &--select {
+      appearance: none;
+      padding-right: 44px;
+      cursor: pointer;
+
+      option {
+        background: var(--surface);
+        color: var(--fg);
+      }
+    }
+  }
+
+  &__box--select::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--fg);
+    border-bottom: 2px solid var(--fg);
+    transform: translateY(-70%) rotate(45deg);
+    transition: transform 0.2s;
+    pointer-events: none;
+  }
+  &__box--select:focus-within::after {
+    transform: translateY(-30%) rotate(225deg);
+  }
+
+  &__hint {
+    font-size: 0.75rem;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: color-mix(in srgb, var(--primary) 16%, var(--surface));
+    --ring: var(--primary-hover);
+    --fh: color-mix(in srgb, var(--primary) 24%, var(--surface));
+    --ff: color-mix(in srgb, var(--primary) 28%, var(--surface));
+  }
+  &--outline {
+    --b: color-mix(in srgb, var(--fg) 45%, transparent);
+    --f: var(--surface);
+    --ring: var(--alt);
+    --fh: color-mix(in srgb, var(--fg) 6%, var(--surface));
+    --ff: color-mix(in srgb, var(--fg) 10%, var(--surface));
+  }
+  &--alt {
+    --b: var(--alt);
+    --f: var(--surface);
+    --ring: var(--fg);
+    --fh: color-mix(in srgb, var(--alt) 10%, var(--surface));
+    --ff: color-mix(in srgb, var(--alt) 18%, var(--surface));
+  }
+
+  &.is-error {
+    --b: var(--error);
+    --ring: var(--error);
+
+    .vl-field__hint {
+      color: var(--error);
+    }
+  }
+
+  &.is-disabled {
+    opacity: 0.45;
+
+    .vl-field__control {
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* ---------- Checkboxen ---------- */
+
+.vl-check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+  }
+
+  &__box {
+    position: relative;
+    isolation: isolate;
+    flex: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--b);
+    --bw: 2px;
+    transition:
+      background 0.2s,
+      transform 0.15s;
+    @include cut(6px);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--bw);
+      z-index: -1;
+      background: var(--f);
+      transition: background 0.2s;
+      @include cut-inner(6px);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 46%;
+      left: 50%;
+      width: 6px;
+      height: 12px;
+      border: solid var(--ct);
+      border-width: 0 3px 3px 0;
+      transform: translate(-50%, -55%) rotate(45deg) scale(0);
+      transition: transform 0.15s;
+    }
+  }
+
+  &__label {
+    font-size: 15px;
+    line-height: 24px;
+    letter-spacing: 0.06em;
+  }
+
+  &:not(.is-disabled):hover .vl-check__box::before {
+    background: color-mix(in srgb, var(--b) 28%, var(--f));
+  }
+
+  .vl-check__input:checked + .vl-check__box::before {
+    background: var(--cf);
+  }
+  &:not(.is-disabled):hover .vl-check__input:checked + .vl-check__box::before {
+    background: color-mix(in srgb, var(--cf) 82%, var(--surface));
+  }
+  .vl-check__input:checked + .vl-check__box::after {
+    transform: translate(-50%, -55%) rotate(45deg) scale(1);
+  }
+  .vl-check__input:focus-visible + .vl-check__box {
+    --b: var(--ring);
+    --bw: 4px;
+    transform: scale(1.1);
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: var(--surface);
+    --cf: var(--primary);
+    --ct: var(--on-primary);
+    --ring: var(--primary-hover);
+  }
+  &--outline {
+    --b: var(--fg);
+    --f: var(--surface);
+    --cf: var(--fg);
+    --ct: var(--on-fg);
+    --ring: var(--alt);
+  }
+  &--alt {
+    --b: var(--alt);
+    --f: var(--surface);
+    --cf: var(--alt);
+    --ct: var(--on-alt);
+    --ring: var(--fg);
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: 600px) {
+  .vl-type__row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  .vl-section {
+    padding: 1.5rem 1.25rem;
+  }
+  .vl-h1 {
+    font-size: 36px;
+    line-height: 38px;
+  }
+}

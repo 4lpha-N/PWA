@@ -1,0 +1,360 @@
+// Neumorph colors are defined as CSS custom properties in index.scss
+// so they automatically adapt to light/dark theme.
+//
+// Light:  --nm-bg, --nm-shadow-dark, --nm-shadow-light, --nm-gradient-a/-b
+// Dark:   same variables, overridden in .dark {}
+
+// Shadow size tokens — override before importing to customize globally.
+// blur is always size * 2 to maintain the neumorph ratio.
+$nm-size-default: 12 !default; // default state offset (px)
+$nm-size-hover: 5 !default; // hover / active offset (px)
+$nm-size-active-hover: 2 !default; // active-hover offset (px)
+
+// Single mixin for all neumorphic states.
+// Usage: @include neumorph(default | hover | active | active-hover | concave | convex, top-left | top-right | bottom-left | bottom-right)
+@mixin neumorph($type: default, $dir: top-left) {
+  // Derive x/y shadow signs and gradient angle from light source direction
+  $sx: 1;
+  $sy: 1;
+  $angle: 145deg;
+
+  @if $dir == top-right {
+    $sx: -1;
+    $sy: 1;
+    $angle: 55deg;
+  } @else if $dir == bottom-left {
+    $sx: 1;
+    $sy: -1;
+    $angle: 235deg;
+  } @else if $dir == bottom-right {
+    $sx: -1;
+    $sy: -1;
+    $angle: 325deg;
+  }
+
+  border-radius: 15px;
+  transition:
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+
+  @if $type == default {
+    background: var(--nm-bg);
+    box-shadow:
+      #{$sx *
+        $nm-size-default}px
+        #{$sy *
+        $nm-size-default}px
+        #{$nm-size-default *
+        2}px
+        var(--nm-shadow-dark),
+      #{$sx *
+        -$nm-size-default}px
+        #{$sy *
+        -$nm-size-default}px
+        #{$nm-size-default *
+        2}px
+        var(--nm-shadow-light);
+  } @else if $type == hover {
+    background: var(--nm-bg);
+    box-shadow:
+      #{$sx *
+        $nm-size-hover}px
+        #{$sy *
+        $nm-size-hover}px
+        #{$nm-size-hover *
+        2}px
+        var(--nm-shadow-dark),
+      #{$sx *
+        -$nm-size-hover}px
+        #{$sy *
+        -$nm-size-hover}px
+        #{$nm-size-hover *
+        2}px
+        var(--nm-shadow-light);
+  } @else if $type == active {
+    background: var(--nm-bg);
+    box-shadow:
+      inset
+        #{$sx *
+        $nm-size-hover}px
+        #{$sy *
+        $nm-size-hover}px
+        #{$nm-size-hover *
+        2}px
+        var(--nm-shadow-dark),
+      inset
+        #{$sx *
+        -$nm-size-hover}px
+        #{$sy *
+        -$nm-size-hover}px
+        #{$nm-size-hover *
+        2}px
+        var(--nm-shadow-light);
+  } @else if $type == active-hover {
+    background: var(--nm-bg);
+    box-shadow:
+      inset
+        #{$sx *
+        $nm-size-active-hover}px
+        #{$sy *
+        $nm-size-active-hover}px
+        #{$nm-size-active-hover *
+        2}px
+        var(--nm-shadow-dark),
+      inset
+        #{$sx *
+        -$nm-size-active-hover}px
+        #{$sy *
+        -$nm-size-active-hover}px
+        #{$nm-size-active-hover *
+        2}px
+        var(--nm-shadow-light);
+  } @else if $type == concave {
+    background: linear-gradient(
+      $angle,
+      var(--nm-gradient-a),
+      var(--nm-gradient-b)
+    );
+    box-shadow:
+      #{$sx *
+        $nm-size-default}px
+        #{$sy *
+        $nm-size-default}px
+        #{$nm-size-default *
+        2}px
+        var(--nm-shadow-dark),
+      #{$sx *
+        -$nm-size-default}px
+        #{$sy *
+        -$nm-size-default}px
+        #{$nm-size-default *
+        2}px
+        var(--nm-shadow-light);
+  } @else if $type == concave-hover {
+    background: linear-gradient(
+      $angle,
+      var(--nm-gradient-a),
+      var(--nm-gradient-b)
+    );
+    box-shadow:
+      #{$sx *
+        $nm-size-hover}px
+        #{$sy *
+        $nm-size-hover}px
+        #{$nm-size-hover *
+        2}px
+        var(--nm-shadow-dark),
+      #{$sx *
+        -$nm-size-hover}px
+        #{$sy *
+        -$nm-size-hover}px
+        #{$nm-size-hover *
+        2}px
+        var(--nm-shadow-light);
+  } @else if $type == convex {
+    background: linear-gradient(
+      $angle,
+      var(--nm-gradient-b),
+      var(--nm-gradient-a)
+    );
+    box-shadow:
+      #{$sx *
+        $nm-size-default}px
+        #{$sy *
+        $nm-size-default}px
+        #{$nm-size-default *
+        2}px
+        var(--nm-shadow-dark),
+      #{$sx *
+        -$nm-size-default}px
+        #{$sy *
+        -$nm-size-default}px
+        #{$nm-size-default *
+        2}px
+        var(--nm-shadow-light);
+  } @else if $type == convex-hover {
+    background: linear-gradient(
+      $angle,
+      var(--nm-gradient-b),
+      var(--nm-gradient-a)
+    );
+    box-shadow:
+      #{$sx *
+        $nm-size-hover}px
+        #{$sy *
+        $nm-size-hover}px
+        #{$nm-size-hover *
+        2}px
+        var(--nm-shadow-dark),
+      #{$sx *
+        -$nm-size-hover}px
+        #{$sy *
+        -$nm-size-hover}px
+        #{$nm-size-hover *
+        2}px
+        var(--nm-shadow-light);
+  }
+}
+// Reusable direction block — overrides all states for a given light source.
+// Used internally by direction modifier classes.
+@mixin neumorph-dir($dir) {
+  @include neumorph(default, $dir);
+
+  &:hover {
+    @include neumorph(hover, $dir);
+  }
+  &:active {
+    @include neumorph(active, $dir);
+  }
+
+  &.concave {
+    @include neumorph(concave, $dir);
+    &:hover {
+      @include neumorph(concave-hover, $dir);
+    }
+    &:active {
+      @include neumorph(active, $dir);
+    }
+  }
+
+  &.convex {
+    @include neumorph(convex, $dir);
+    &:hover {
+      @include neumorph(convex-hover, $dir);
+    }
+    &:active {
+      @include neumorph(active, $dir);
+    }
+  }
+}
+
+// Optional $variant (concave | convex) for the resting state.
+@mixin neumorph-interactive($variant: default, $dir: top-left) {
+  @include neumorph($variant, $dir);
+
+  $hover-type: hover;
+  @if $variant == convex {
+    $hover-type: convex-hover;
+  } @else if $variant == concave {
+    $hover-type: concave-hover;
+  }
+
+  &:hover {
+    @include neumorph($hover-type, $dir);
+  }
+
+  &:active {
+    @include neumorph(active, $dir);
+  }
+}
+
+@mixin neumorph-field($dir: top-left) {
+  @include neumorph(active, $dir);
+}
+
+@mixin neumorph-field-interactive($dir: top-left) {
+  @include neumorph(active, $dir);
+
+  &:hover {
+    @include neumorph(active-hover, $dir);
+  }
+}
+
+.neumorph {
+  @include neumorph();
+
+  &.concave {
+    @include neumorph(concave);
+  }
+  &.convex {
+    @include neumorph(convex);
+  }
+
+  &.top-right {
+    @include neumorph(default, top-right);
+    &.concave {
+      @include neumorph(concave, top-right);
+    }
+    &.convex {
+      @include neumorph(convex, top-right);
+    }
+  }
+
+  &.bottom-left {
+    @include neumorph(default, bottom-left);
+    &.concave {
+      @include neumorph(concave, bottom-left);
+    }
+    &.convex {
+      @include neumorph(convex, bottom-left);
+    }
+  }
+
+  &.bottom-right {
+    @include neumorph(default, bottom-right);
+    &.concave {
+      @include neumorph(concave, bottom-right);
+    }
+    &.convex {
+      @include neumorph(convex, bottom-right);
+    }
+  }
+}
+
+.neumorph-interactive {
+  @include neumorph-interactive();
+
+  &.concave {
+    @include neumorph(concave);
+    &:hover {
+      @include neumorph(concave-hover);
+    }
+    &:active {
+      @include neumorph(active);
+    }
+  }
+
+  &.convex {
+    @include neumorph(convex);
+    &:hover {
+      @include neumorph(convex-hover);
+    }
+    &:active {
+      @include neumorph(active);
+    }
+  }
+
+  &.top-right {
+    @include neumorph-dir(top-right);
+  }
+  &.bottom-left {
+    @include neumorph-dir(bottom-left);
+  }
+  &.bottom-right {
+    @include neumorph-dir(bottom-right);
+  }
+}
+
+.neumorph-field {
+  @include neumorph-field();
+}
+
+.neumorph-field-interactive {
+  @include neumorph-field-interactive();
+}
+
+.test-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 46px;
+  margin-top: 46px;
+
+  .test {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+}

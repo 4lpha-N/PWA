@@ -1,5 +1,6 @@
 import { useMemo, type ReactNode } from "react";
 import "./App.scss";
+import "./Neumorph.scss";
 import { Box } from "@mui/material";
 import Header from "./components/layout/Header";
 import BottomNav from "./components/layout/BottomNav";

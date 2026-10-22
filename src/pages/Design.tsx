@@ -106,8 +106,8 @@ const DECORS: ReactNode[] = [
     <span className="vl-deco__scan" />
     <span className="vl-deco__glow" />
     <span className="vl-deco__rail" />
-    <span className="vl-deco__tag vl-deco__tag--tl">SYS // 042</span>
-    <span className="vl-deco__tag vl-deco__tag--br">SEC 7-A</span>
+    <span className="vl-deco__tag vl-deco__tag--tl">TAG 01</span>
+    <span className="vl-deco__tag vl-deco__tag--br">TAG 02</span>
   </>,
 
   // 4: Bänder (breite Diagonalen, Dreiecke)
@@ -1678,13 +1678,11 @@ interface SlideItem {
   caption?: string;
 }
 
-const DEMO_SLIDES: SlideItem[] = ["Taktik", "Karte", "Agenten", "Waffen"].map(
-  (caption, n) => ({
-    src: demoImage(n),
-    alt: `Platzhalterbild ${n + 1}`,
-    caption,
-  }),
-);
+const DEMO_SLIDES: SlideItem[] = Array.from({ length: 4 }, (_, n) => ({
+  src: demoImage(n),
+  alt: `Platzhalterbild ${n + 1}`,
+  caption: `Bild ${n + 1}`,
+}));
 
 function VlCarousel({
   variant,

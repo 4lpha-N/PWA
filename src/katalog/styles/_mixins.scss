@@ -1,0 +1,42 @@
+@mixin cut($c: var(--cut)) {
+  clip-path: polygon(
+    0 0,
+    calc(100% - #{$c}) 0,
+    100% #{$c},
+    100% 100%,
+    #{$c} 100%,
+    0 calc(100% - #{$c})
+  );
+}
+
+// Innenfläche, um --bw (bzw. $o) eingerückt, mit passend verkleinerter Ecke
+@mixin cut-inner($c: var(--cut), $o: var(--bw)) {
+  @include cut(calc(#{$c} - 0.586 * #{$o}));
+}
+
+// Achteck (alle vier Ecken geschnitten), z. B. für Radio
+@mixin cut-oct($c) {
+  clip-path: polygon(
+    #{$c} 0,
+    calc(100% - #{$c}) 0,
+    100% #{$c},
+    100% calc(100% - #{$c}),
+    calc(100% - #{$c}) 100%,
+    #{$c} 100%,
+    0 calc(100% - #{$c}),
+    0 #{$c}
+  );
+}
+
+// ---------- Farbpalette: einzige Stelle für Farbwerte ----------
+$c-ink: #0f1923; // dunkler Grund / dunkle Schrift
+$c-ink-soft: #17232f; // Fläche auf dunklem Grund
+$c-bone: #ece8e1; // warmes Weiß (Theme 1)
+$c-white: #ffffff; // reines Weiß (Theme 2)
+$c-red: #ff4655; // Akzent / Grund Theme 2
+$c-red-text: #cf2638; // Akzent auf weißem Grund (Text und Flächen ab 4,5:1)
+$c-red-deep: #d02f3f; // Fläche auf rotem Grund (weißer Text ab 4,5:1)
+$c-warn-dark: #ffb547; // Fehler auf dunklem Grund
+$c-warn-red: #fff2a0; // Fehler auf rotem Grund
+$c-paper: #f5f6f7; // Fläche auf weißem Grund
+$c-warn-light: #a85600; // Fehler auf weißem Grund

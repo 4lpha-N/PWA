@@ -1,0 +1,173 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Image Slider ---------- */
+
+.vl-car {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+
+  &--primary {
+    --b-over: var(--primary);
+    --bar: var(--primary);
+  }
+  &--secondary {
+    --b-over: #{$c-bone};
+    --bar: var(--link-2);
+  }
+
+  &__stage {
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y;
+    @include cut(12px);
+
+    .vl-img {
+      clip-path: none;
+    }
+    img {
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+  }
+
+  &__track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  &__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
+  &__nav {
+    position: absolute;
+    top: calc(50% - 22px);
+    z-index: 2;
+
+    &--prev {
+      left: 12px;
+    }
+    &--next {
+      right: 12px;
+    }
+  }
+
+  &__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  &__count {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+
+  &__dots {
+    display: flex;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // Schräge Balken; Trefferfläche mindestens 24 px hoch
+  &__dot {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      width: 22px;
+      height: 6px;
+      background: var(--edge);
+      transform: skewX(-24deg);
+      transition: background 0.2s;
+    }
+    &:hover:not(:disabled)::before {
+      background: var(--fg);
+    }
+    &[aria-current="true"]::before {
+      background: var(--bar);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--bar);
+      outline-offset: 0;
+    }
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &__thumbs {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  &__thumb {
+    --bw: 1px;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 96px;
+    padding: var(--bw);
+    border: 0;
+    background: var(--edge);
+    cursor: pointer;
+    transition: background 0.2s;
+    @include cut(6px);
+
+    img,
+    span {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      @include cut-inner(6px, var(--bw));
+    }
+    span {
+      background: color-mix(in srgb, var(--fg) 8%, var(--surface));
+    }
+
+    &:hover:not(:disabled) {
+      --bw: 2px;
+    }
+    &:hover:not(:disabled) img,
+    &[aria-current="true"] img {
+      opacity: 1;
+    }
+    &[aria-current="true"] {
+      --bw: 3px;
+      background: var(--bar);
+    }
+    &:focus-visible {
+      outline: none;
+      --bw: 3px;
+      background: var(--fg);
+    }
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
+  }
+}

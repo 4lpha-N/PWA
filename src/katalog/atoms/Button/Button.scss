@@ -1,0 +1,105 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Buttons ---------- */
+
+.vl-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14rem;
+  max-width: 100%;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: var(--b);
+  color: var(--t);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.25s;
+  --bw: 2px;
+  --gap: 0px;
+  --ofs: calc(var(--bw) + var(--gap));
+  @include cut;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    z-index: -1;
+  }
+
+  &::before {
+    background: var(--f);
+    @include cut-inner;
+  }
+
+  // Hover-Fläche fährt von links herein (transform statt clip-path: läuft auf dem Compositor, kein Flackern)
+  &::after {
+    inset: var(--ofs);
+    background: var(--hf);
+    @include cut-inner(var(--cut), var(--ofs));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  &:hover:not(:disabled, [aria-disabled="true"]),
+  &:focus-visible {
+    color: var(--ht);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  // clip-path schneidet outline ab: Fokus = Hover-Fläche + Ring in Kontrastfarbe mit Abstand
+  &:focus-visible {
+    --b: var(--ring);
+    --bw: 4px;
+    --gap: 2px;
+    outline: none;
+  }
+
+  &:active:not(:disabled, [aria-disabled="true"]) {
+    transform: translateY(1px);
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: var(--primary);
+    --t: var(--on-primary);
+    --hf: var(--primary-hover);
+    --ht: var(--on-primary-hover);
+    --ring: var(--primary-hover);
+  }
+  &--outline {
+    --b: var(--fg);
+    --f: var(--surface);
+    --t: var(--fg);
+    --hf: var(--fg);
+    --ht: var(--on-fg);
+    --ring: var(--alt);
+  }
+  &--alt {
+    --b: var(--alt);
+    --f: var(--surface);
+    --t: var(--alt);
+    --hf: var(--alt);
+    --ht: var(--on-alt);
+    --ring: var(--fg);
+  }
+}

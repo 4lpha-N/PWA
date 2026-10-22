@@ -1,0 +1,452 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Verzierungen ---------- */
+
+.vl-deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  animation: vl-deco-in 0.5s ease both;
+
+  &__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--deco-a) 1px, transparent 1px),
+      linear-gradient(90deg, var(--deco-a) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(135deg, #000 0%, transparent 65%);
+  }
+
+  &__slash {
+    position: absolute;
+    top: -10%;
+    height: 120%;
+    background: color-mix(in srgb, var(--deco) 9%, transparent);
+    transform: skewX(-25deg);
+
+    &--a {
+      right: 10%;
+      width: 9rem;
+    }
+    &--b {
+      right: calc(10% + 11rem);
+      width: 2.5rem;
+    }
+    &--c {
+      right: calc(10% + 15rem);
+      width: 6px;
+    }
+  }
+
+  &__ruler {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 20px;
+    background-image:
+      repeating-linear-gradient(
+        to bottom,
+        var(--deco-b) 0 1px,
+        transparent 1px 12px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        var(--deco-b) 0 2px,
+        transparent 2px 60px
+      );
+    background-size:
+      8px 100%,
+      18px 100%;
+    background-repeat: no-repeat;
+  }
+
+  &__stripes {
+    position: absolute;
+    top: 20px;
+    left: 5rem;
+    width: 7rem;
+    height: 2.5rem;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--deco-b) 0 3px,
+      transparent 3px 9px
+    );
+
+    &--br {
+      top: auto;
+      left: auto;
+      right: 5rem;
+      bottom: 20px;
+    }
+  }
+
+  &__corner {
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0 solid var(--deco-b);
+
+    &--tl {
+      top: 1rem;
+      left: 36px;
+      border-width: 2px 0 0 2px;
+    }
+    &--tr {
+      top: 1rem;
+      right: 1rem;
+      border-width: 2px 2px 0 0;
+    }
+    &--bl {
+      bottom: 1rem;
+      left: 36px;
+      border-width: 0 0 2px 2px;
+    }
+    &--br {
+      bottom: 1rem;
+      right: 1rem;
+      border-width: 0 2px 2px 0;
+    }
+  }
+}
+
+@keyframes vl-deco-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------- Decor-Varianten 2–9 (1 = oben) ---------- */
+
+// 2: Hex
+.vl-deco__hexfield {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--deco-a);
+  mask-image: radial-gradient(ellipse at 85% 15%, #000 0%, transparent 70%);
+}
+.vl-deco__hexbig {
+  position: absolute;
+  top: 3rem;
+  right: -3rem;
+  width: 20rem;
+  fill: none;
+  stroke: var(--deco-b);
+  stroke-width: 2;
+
+  polygon:last-child {
+    fill: var(--deco-a);
+    stroke: none;
+  }
+
+  &--sm {
+    top: auto;
+    right: auto;
+    bottom: 2rem;
+    left: 3rem;
+    width: 11rem;
+    stroke-dasharray: 6 6;
+  }
+}
+.vl-deco__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 6px;
+  background: var(--deco-b);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+// 3: HUD
+.vl-deco__scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--deco-c) 0 1px,
+    transparent 1px 4px
+  );
+  mask-image: linear-gradient(to bottom, #000, transparent 90%);
+}
+.vl-deco__glow {
+  position: absolute;
+  top: -10rem;
+  right: -10rem;
+  width: 34rem;
+  height: 34rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--deco) 22%, transparent),
+    transparent 70%
+  );
+}
+.vl-deco__rail {
+  position: absolute;
+  top: 12%;
+  left: 20px;
+  width: 6px;
+  height: 36%;
+  background: var(--deco-b);
+  clip-path: polygon(0 0, 100% 12px, 100% 100%, 0 calc(100% - 12px));
+}
+.vl-deco__tag {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--deco-b);
+
+  &--tl {
+    top: 20px;
+    left: 3rem;
+  }
+  &--br {
+    right: 1.5rem;
+    bottom: 20px;
+  }
+}
+
+// 4: Bänder
+.vl-deco__bands {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -35deg,
+    transparent 0 90px,
+    var(--deco-c) 90px 170px,
+    transparent 170px 210px,
+    var(--deco-a) 210px 216px
+  );
+  mask-image: linear-gradient(to bottom left, #000, transparent 75%);
+}
+.vl-deco__tri {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14rem;
+  height: 14rem;
+  background: var(--deco-a);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+
+  &--tl {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 0;
+    transform: rotate(180deg);
+  }
+}
+
+// 5: Punkte
+.vl-deco__dots {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(var(--deco-b) 1.5px, transparent 1.5px) 0 0 / 24px
+    24px;
+  mask-image:
+    radial-gradient(ellipse at 0% 100%, #000, transparent 55%),
+    radial-gradient(ellipse at 100% 0%, #000, transparent 55%);
+
+  &--bl {
+    mask-image: radial-gradient(ellipse at 0% 100%, #000, transparent 60%);
+  }
+  &--br {
+    mask-image: radial-gradient(ellipse at 100% 100%, #000, transparent 60%);
+  }
+}
+// 8: Inhalt innerhalb des Rahmens aus Variante 7
+.vl-deco__inner {
+  position: absolute;
+  inset: 1rem;
+  overflow: hidden;
+  @include cut(28px);
+}
+.vl-deco__bracket {
+  position: absolute;
+  width: 6rem;
+  height: 6rem;
+  border: 0 solid var(--deco-b);
+
+  &--tl {
+    top: 1.5rem;
+    left: 2.5rem;
+    border-width: 3px 0 0 3px;
+  }
+  &--tr {
+    top: 1.5rem;
+    right: 1.5rem;
+    border-width: 3px 3px 0 0;
+  }
+  &--bl {
+    bottom: 1.5rem;
+    left: 2.5rem;
+    border-width: 0 0 3px 3px;
+  }
+  &--br {
+    right: 1.5rem;
+    bottom: 1.5rem;
+    border-width: 0 3px 3px 0;
+  }
+}
+.vl-deco__plus {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: var(--deco-b);
+  }
+  &::before {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    margin-left: -1px;
+  }
+  &::after {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    margin-top: -1px;
+  }
+
+  &--a {
+    top: 18%;
+    left: 12%;
+  }
+  &--b {
+    top: 62%;
+    left: 30%;
+  }
+  &--c {
+    top: 30%;
+    right: 22%;
+  }
+  &--d {
+    top: 80%;
+    right: 8%;
+  }
+}
+
+// 6: Splitter
+.vl-deco__shard {
+  position: absolute;
+
+  &--a {
+    top: 0;
+    left: 0;
+    width: 30rem;
+    height: 18rem;
+    background: var(--deco-c);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+  &--b {
+    top: 0;
+    left: 0;
+    width: 18rem;
+    height: 10rem;
+    background: var(--deco-a);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+  &--c {
+    right: 0;
+    bottom: 0;
+    width: 34rem;
+    height: 22rem;
+    background: var(--deco-c);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+  &--d {
+    right: 0;
+    bottom: 0;
+    width: 20rem;
+    height: 13rem;
+    background: var(--deco-a);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+  &--e {
+    top: 30%;
+    right: 8%;
+    width: 5rem;
+    height: 60%;
+    background: var(--deco-c);
+    clip-path: polygon(40% 0, 100% 0, 60% 100%, 0 100%);
+  }
+}
+
+// 7: Rahmen
+.vl-deco__frame {
+  --bw: 2px;
+  position: absolute;
+  inset: 1rem;
+  background: var(--deco-b);
+  @include cut(28px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    background: var(--bg);
+    @include cut-inner(28px);
+  }
+}
+.vl-deco__notch {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  width: 14rem;
+  height: 8px;
+  margin-left: -7rem;
+  background: var(--deco-b);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 8px 100%);
+}
+.vl-deco__strip {
+  position: absolute;
+  left: 3rem;
+  right: 3rem;
+  height: 10px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--deco-b) 0 2px,
+    transparent 2px 10px
+  );
+
+  &--t {
+    top: 2rem;
+  }
+  &--b {
+    bottom: 2rem;
+  }
+}
+.vl-deco__ticks {
+  position: absolute;
+  top: 5rem;
+  bottom: 5rem;
+  width: 10px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--deco-b) 0 2px,
+    transparent 2px 14px
+  );
+
+  &--l {
+    left: 2rem;
+  }
+  &--r {
+    right: 2rem;
+  }
+}

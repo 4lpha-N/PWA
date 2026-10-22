@@ -1,0 +1,122 @@
+@use "../../styles/mixins" as *;
+
+.vl-media {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-areas: "media body";
+  grid-template-columns: 1fr 1fr;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 2px;
+  background: var(--b);
+  --bw: 2px;
+  @include cut(12px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    z-index: -1;
+    background: var(--f);
+    @include cut-inner(12px);
+  }
+
+  &--right {
+    grid-template-areas: "body media";
+  }
+
+  // Bild folgt der inneren Schnittecke des Rahmens (unten links bzw. oben rechts)
+  &__media {
+    display: flex;
+    grid-area: media;
+    min-width: 0;
+    min-height: 260px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 11px 100%, 0 calc(100% - 11px));
+
+    .vl-img {
+      flex: 1;
+      aspect-ratio: auto !important;
+      clip-path: none;
+    }
+    .vl-img__el {
+      position: absolute;
+      inset: 0;
+    }
+  }
+  &--right &__media {
+    clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 0 100%);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    grid-area: body;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px 36px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--muted);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: var(--surface);
+  }
+  &--outline {
+    --b: var(--edge);
+    --f: var(--surface);
+  }
+  &--alt {
+    --b: var(--alt);
+    --f: var(--surface);
+  }
+}
+
+@media (max-width: 720px) {
+  .vl-media,
+  .vl-media--right {
+    grid-template-areas: "media" "body";
+    grid-template-columns: 1fr;
+  }
+  .vl-media__media,
+  .vl-media--right .vl-media__media {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 0 100%);
+  }
+  .vl-media__body {
+    padding: 20px 20px 24px;
+  }
+  .vl-hero__content {
+    max-width: none;
+    padding: 20px 20px 88px;
+  }
+  .vl-hero__title {
+    font-size: 28px;
+    line-height: 30px;
+  }
+}

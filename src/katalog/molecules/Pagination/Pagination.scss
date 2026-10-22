@@ -1,0 +1,162 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Pagination ---------- */
+
+// Zahlen oben, Pfeile in eigener Zeile darunter; $p = Vorfahre, der die Liste enthält
+@mixin pager-stacked($p: ".vl-pager") {
+  #{$p} .vl-pager__list {
+    justify-content: center;
+    gap: 4px;
+
+    &::after {
+      content: "";
+      order: 2;
+      flex-basis: 100%;
+      height: 4px;
+    }
+  }
+  #{$p} .vl-pager__num {
+    order: 1;
+
+    .vl-pager__btn {
+      min-width: 36px;
+      padding: 0 6px;
+    }
+  }
+  #{$p} .vl-pager__nav {
+    order: 3;
+
+    .vl-pager__btn {
+      min-width: 56px;
+    }
+  }
+  #{$p} .vl-pager__gap {
+    min-width: 16px;
+  }
+}
+
+.vl-pager {
+  container: pager / inline-size;
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__btn {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 10px;
+    border: 0;
+    background: var(--b);
+    color: var(--fg);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    --bw: 2px;
+    transition: color 0.2s;
+    @include cut(8px);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--bw);
+      z-index: -1;
+      background: var(--f);
+      transition: background 0.2s;
+      @include cut-inner(8px);
+    }
+
+    &:hover:not(:disabled, .is-active) {
+      --f: var(--fh);
+    }
+    &.is-active {
+      --f: var(--cf);
+      color: var(--ct);
+    }
+    &:focus-visible {
+      outline: none;
+      --b: var(--ring);
+      --bw: 3px;
+    }
+    &:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  &__gap {
+    min-width: 24px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-align: center;
+  }
+
+  &__arrows {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  &__arrow {
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: translateX(-1px) rotate(45deg);
+
+    &--prev {
+      transform: translateX(1px) rotate(-135deg);
+    }
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: var(--surface);
+    --fh: color-mix(in srgb, var(--primary) 24%, var(--surface));
+    --cf: var(--primary);
+    --ct: var(--on-primary);
+    --ring: var(--primary-hover);
+  }
+  &--secondary {
+    --b: var(--link-2);
+    --f: var(--surface);
+    --fh: color-mix(in srgb, var(--link-2) 14%, var(--surface));
+    --cf: var(--link-2);
+    --ct: var(--on-alt);
+    --ring: var(--primary);
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
+  }
+}
+
+// Stapeln, sobald die Zeile nicht mehr passt (Breite: 9 bzw. 11 Eintr\u00e4ge)
+@container pager (max-width: 380px) {
+  @include pager-stacked;
+}
+@container pager (max-width: 470px) {
+  @include pager-stacked(".vl-pager--edges");
+}
+
+@media (max-width: 720px) {
+  // Pagination: Zahlen oben, Pfeile in einer eigenen Zeile darunter
+  @include pager-stacked;
+}

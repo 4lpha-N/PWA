@@ -1,0 +1,79 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Tabs ---------- */
+
+.vl-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+
+  &__list {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    box-shadow: inset 0 -2px 0 var(--line);
+    scrollbar-width: none;
+  }
+
+  &__tab {
+    position: relative;
+    flex: none;
+    height: 40px;
+    padding: 0 16px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      color 0.2s,
+      background 0.2s;
+
+    &:hover:not(:disabled) {
+      color: var(--fg);
+      background: color-mix(in srgb, var(--b) 12%, transparent);
+    }
+    &.is-active {
+      color: var(--fg);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: inset 0 0 0 2px var(--ring);
+    }
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  &__ind {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--b);
+  }
+
+  &__panel {
+    min-height: 66px;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--muted);
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --ring: var(--primary-hover);
+  }
+  &--secondary {
+    --b: var(--link-2);
+    --ring: var(--primary);
+  }
+}

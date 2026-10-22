@@ -1,0 +1,165 @@
+@use "../../styles/mixins" as *;
+
+// Ecken-Größen des Toggle-Schiebers, animierbar damit die Ecke mitwandert
+@property --thumb-tr {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --thumb-bl {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 5px;
+}
+
+/* ---------- Toggle ---------- */
+
+.vl-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+  }
+
+  &__track {
+    position: relative;
+    isolation: isolate;
+    flex: none;
+    width: 56px;
+    height: 28px;
+    background: var(--b);
+    --bw: 2px;
+    @include cut(8px);
+
+    // Skala-Striche auf der freien Seite: aus = rechts, an = links
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--bw);
+      z-index: -1;
+      --tick: color-mix(in srgb, var(--b) 45%, transparent);
+      background-color: var(--f);
+      background-image: repeating-linear-gradient(
+        90deg,
+        var(--tick) 0 2px,
+        transparent 2px 6px
+      );
+      background-size: 14px 10px;
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      transition: background-color 0.2s;
+      @include cut-inner(8px);
+    }
+
+    // Schieber: Ecke folgt der Track-Form (aus = links unten, an = rechts oben).
+    // left/right laufen versetzt: die Vorderkante eilt voraus, der Schieber dehnt sich und zieht nach.
+    &::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 6px;
+      right: 34px;
+      --thumb-tr: 0px;
+      --thumb-bl: 5px;
+      background: color-mix(in srgb, var(--b) 60%, var(--f));
+      clip-path: polygon(
+        0 0,
+        calc(100% - var(--thumb-tr)) 0,
+        100% var(--thumb-tr),
+        100% 100%,
+        var(--thumb-bl) 100%,
+        0 calc(100% - var(--thumb-bl))
+      );
+      transition:
+        left 0.12s cubic-bezier(0.2, 0.8, 0.2, 1),
+        right 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+        background 0.2s,
+        --thumb-tr 0.2s,
+        --thumb-bl 0.2s;
+    }
+  }
+
+  &__label {
+    font-size: 15px;
+    line-height: 24px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+
+  &:not(.is-disabled):hover .vl-switch__track::before {
+    background-color: color-mix(in srgb, var(--b) 28%, var(--f));
+  }
+
+  .vl-switch__input:checked ~ .vl-switch__label {
+    color: var(--fg);
+  }
+  .vl-switch__input:checked + .vl-switch__track::before {
+    --tick: color-mix(in srgb, var(--ct) 40%, transparent);
+    background-color: var(--cf);
+    background-position: left 8px center;
+  }
+  .vl-switch__input:checked + .vl-switch__track::after {
+    background: var(--ct);
+    left: 34px;
+    right: 6px;
+    --thumb-tr: 5px;
+    --thumb-bl: 0px;
+    transition:
+      left 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+      right 0.12s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background 0.2s,
+      --thumb-tr 0.2s,
+      --thumb-bl 0.2s;
+  }
+  &:not(.is-disabled):hover
+    .vl-switch__input:checked
+    + .vl-switch__track::before {
+    background-color: color-mix(in srgb, var(--cf) 82%, var(--surface));
+  }
+  // Hover: Schieber streckt sich leicht in Richtung des Zielzustands
+  &:not(.is-disabled):hover
+    .vl-switch__input:not(:checked)
+    + .vl-switch__track::after {
+    right: 30px;
+  }
+  &:not(.is-disabled):hover
+    .vl-switch__input:checked
+    + .vl-switch__track::after {
+    left: 30px;
+  }
+  .vl-switch__input:focus-visible + .vl-switch__track {
+    --b: var(--ring);
+    --bw: 4px;
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: var(--surface);
+    --cf: var(--primary);
+    --ct: var(--on-primary);
+    --ring: var(--primary-hover);
+  }
+  &--secondary {
+    --b: var(--link-2);
+    --f: var(--surface);
+    --cf: var(--link-2);
+    --ct: var(--on-alt);
+    --ring: var(--primary);
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}

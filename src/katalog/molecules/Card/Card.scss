@@ -1,0 +1,120 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Card ---------- */
+
+.vl-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 2px;
+  background: var(--b);
+  --bw: 2px;
+  transition: transform 0.2s;
+  @include cut(12px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    z-index: -1;
+    background: var(--f);
+    transition: background 0.2s;
+    @include cut-inner(12px);
+  }
+
+  // Bild folgt der inneren Schnittecke der Karte (oben rechts)
+  &__media {
+    clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 0 100%);
+
+    .vl-img {
+      clip-path: none;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px 18px 18px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--muted);
+  }
+
+  &__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: auto;
+    padding: 0 18px 18px;
+  }
+
+  // Ganze Karte klickbar
+  &__link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    &:focus-visible {
+      outline: none;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  }
+
+  &.is-interactive {
+    cursor: pointer;
+
+    &:hover {
+      --f: var(--fh);
+      transform: translateY(-2px);
+    }
+    &:hover .vl-img__el {
+      transform: scale(1.04);
+    }
+    &:has(.vl-card__link:focus-visible) {
+      --b: var(--ring);
+    }
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: var(--surface);
+    --fh: color-mix(in srgb, var(--primary) 14%, var(--surface));
+    --ring: var(--primary-hover);
+  }
+  &--outline {
+    --b: var(--edge);
+    --f: var(--surface);
+    --fh: color-mix(in srgb, var(--fg) 8%, var(--surface));
+    --ring: var(--alt);
+  }
+  &--alt {
+    --b: var(--alt);
+    --f: var(--surface);
+    --fh: color-mix(in srgb, var(--alt) 12%, var(--surface));
+    --ring: var(--fg);
+  }
+}

@@ -1,0 +1,83 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Links ---------- */
+
+.vl-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  color: var(--l);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  // Pfeil hinter dem Text
+  &::before {
+    content: "";
+    order: 1;
+    box-sizing: border-box;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+  }
+
+  // Unterstreichung wächst von links
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0.3);
+    transform-origin: left center;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  &:not(.is-disabled):hover,
+  &:focus-visible {
+    color: var(--lh);
+
+    &::before {
+      transform: translateX(4px) rotate(45deg);
+    }
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
+  }
+
+  &:not(.is-disabled):active {
+    transform: translateY(1px);
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    --l: var(--primary);
+    --lh: var(--primary-hover);
+    --ring: var(--primary-hover);
+  }
+  &--secondary {
+    --l: var(--link-2);
+    --lh: var(--primary);
+    --ring: var(--primary);
+  }
+}

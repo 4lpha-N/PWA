@@ -1,0 +1,141 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Grid-System (12 Spalten, mobile-first) ---------- */
+
+// Basis < 720 px, md ab 720, lg ab 1024, xl ab 1440
+$g-md: 720px;
+$g-bps: (
+  md: $g-md,
+  lg: 1024px,
+  xl: 1440px,
+);
+$g-props: (
+  span: 12,
+  offset: 0,
+  order: 0,
+);
+
+// Verkettete Fallbacks: lg \u2192 md \u2192 Basis \u2192 Standardwert
+@function g-chain($name, $default, $bp: null) {
+  $v: "var(--c-#{$name}, #{$default})";
+  @if $bp == null {
+    @return $v;
+  }
+  @each $k, $w in $g-bps {
+    $v: "var(--c-#{$name}-#{$k}, #{$v})";
+    @if $k == $bp {
+      @return $v;
+    }
+  }
+  @return $v;
+}
+
+@mixin g-vars($bp: null) {
+  @each $name, $default in $g-props {
+    --g-#{$name}: #{g-chain($name, $default, $bp)};
+  }
+}
+
+.vl-g-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--container-max, 1200px);
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (min-width: $g-md) {
+    padding-inline: 1.5rem;
+  }
+
+  &--fluid {
+    max-width: none;
+  }
+}
+
+.vl-g-row {
+  --g-gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--g-gap);
+
+  @media (min-width: $g-md) {
+    --g-gap: 1.5rem;
+  }
+
+  &--sm {
+    --g-gap: 0.5rem;
+  }
+  &--lg {
+    --g-gap: 2rem;
+  }
+  &--start {
+    align-items: start;
+  }
+  &--center {
+    align-items: center;
+  }
+  &--end {
+    align-items: end;
+  }
+}
+
+// Offset als linker Rand: Spaltenbreite + Abstand, Prozent bezieht sich auf die Gridfl\u00e4che (span + offset)
+.vl-g-col {
+  // Inline-Variablen einer \u00e4u\u00dferen Spalte d\u00fcrfen nicht in verschachtelte Spalten vererbt werden
+  @each $name, $default in $g-props {
+    --c-#{$name}: initial;
+    @each $bp, $w in $g-bps {
+      --c-#{$name}-#{$bp}: initial;
+    }
+  }
+  @include g-vars;
+  min-width: 0;
+  order: var(--g-order);
+  grid-column: span calc(var(--g-span) + var(--g-offset));
+  margin-inline-start: calc(
+    (100% + var(--g-gap)) / (var(--g-span) + var(--g-offset)) * var(--g-offset)
+  );
+
+  &--start {
+    align-self: start;
+  }
+  &--center {
+    align-self: center;
+  }
+  &--end {
+    align-self: end;
+  }
+  &--stretch {
+    align-self: stretch;
+  }
+}
+
+@each $bp, $w in $g-bps {
+  @media (min-width: $w) {
+    .vl-g-col {
+      @include g-vars($bp);
+    }
+  }
+}
+
+.vl-g-cell {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 48px;
+  padding: 8px 2px;
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  background: color-mix(in srgb, var(--fg) 8%, var(--surface));
+  color: var(--fg);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
+
+  &--accent {
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 16%, var(--surface));
+  }
+}

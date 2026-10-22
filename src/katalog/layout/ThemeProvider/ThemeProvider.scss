@@ -1,0 +1,170 @@
+@use "../../styles/mixins" as *;
+
+// Registrierte Farb-Tokens: nur so lassen sich Custom Properties animieren,
+// alle abgeleiteten Werte (Hintergründe, Ränder, Texte) laufen dadurch synchron.
+// Initialwerte = Theme 1.
+@property --bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink-soft;
+}
+@property --fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-bone;
+}
+@property --on-fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --primary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-red;
+}
+@property --on-primary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --primary-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-bone;
+}
+@property --on-primary-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --alt {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-red;
+}
+@property --on-alt {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-ink;
+}
+@property --error {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-warn-dark;
+}
+@property --deco {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-red;
+}
+@property --link-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: $c-bone;
+}
+
+$theme-ease: 0.45s ease;
+
+.design-wrapper {
+  //   font-family: "Michroma", sans-serif;
+  --cut: 12px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  transition:
+    --bg $theme-ease,
+    --surface $theme-ease,
+    --fg $theme-ease,
+    --on-fg $theme-ease,
+    --primary $theme-ease,
+    --on-primary $theme-ease,
+    --primary-hover $theme-ease,
+    --on-primary-hover $theme-ease,
+    --alt $theme-ease,
+    --on-alt $theme-ease,
+    --error $theme-ease,
+    --deco $theme-ease,
+    --link-2 $theme-ease;
+
+  // Eigene Hover-/Fokus-Transitions würden die Token-Animation verzögern
+  &.is-switching *,
+  &.is-switching *::before,
+  &.is-switching *::after {
+    transition: none !important;
+  }
+
+  // Theme 1: rot/weiß auf dunkel
+  &--dark {
+    --bg: #{$c-ink};
+    --surface: #{$c-ink-soft};
+    --fg: #{$c-bone};
+    --on-fg: #{$c-ink};
+    --primary: #{$c-red};
+    --on-primary: #{$c-ink};
+    --primary-hover: #{$c-bone};
+    --on-primary-hover: #{$c-ink};
+    --alt: #{$c-red};
+    --on-alt: #{$c-ink};
+    --error: #{$c-warn-dark};
+    --deco: #{$c-red};
+    --link-2: #{$c-bone};
+    --muted-pct: 68%;
+    --edge-pct: 45%;
+  }
+
+  // Theme 2: dunkel/weiß auf rot
+  &--red {
+    --bg: #{$c-red};
+    --surface: #{$c-red-deep};
+    --fg: #{$c-white};
+    --on-fg: #{$c-red-deep};
+    --primary: #{$c-white};
+    --on-primary: #{$c-ink};
+    --primary-hover: #{$c-ink};
+    --on-primary-hover: #{$c-white};
+    --alt: #{$c-ink};
+    --on-alt: #{$c-white};
+    --error: #{$c-warn-red};
+    --deco: #{$c-ink};
+    --link-2: #{$c-ink};
+    --muted-pct: 90%;
+    --edge-pct: 75%;
+    --section-pct: 72%;
+  }
+
+  // Theme 3: rot/dunkel auf weiß
+  &--light {
+    --bg: #{$c-white};
+    --surface: #{$c-paper};
+    --fg: #{$c-ink};
+    --on-fg: #{$c-white};
+    --primary: #{$c-red-text};
+    --on-primary: #{$c-white};
+    --primary-hover: #{$c-ink};
+    --on-primary-hover: #{$c-white};
+    --alt: #{$c-red-text};
+    --on-alt: #{$c-white};
+    --error: #{$c-warn-light};
+    --deco: #{$c-red};
+    --link-2: #{$c-ink};
+    --muted-pct: 68%;
+    --edge-pct: 55%;
+  }
+
+  --muted: color-mix(in srgb, var(--fg) var(--muted-pct), transparent);
+  --edge: color-mix(in srgb, var(--fg) var(--edge-pct), transparent);
+  --line: color-mix(in srgb, var(--fg) 16%, transparent);
+  --deco-a: color-mix(in srgb, var(--deco) 16%, transparent);
+  --deco-b: color-mix(in srgb, var(--deco) 55%, transparent);
+  --deco-c: color-mix(in srgb, var(--deco) 8%, transparent);
+}

@@ -1,0 +1,264 @@
+@use "./mixins" as *;
+
+/* ---------- Layout ---------- */
+
+.vl-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem clamp(1.5rem, 4vw, 3rem) 4rem;
+}
+
+.vl-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.vl-eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.vl-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  &__label {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+}
+
+.vl-section {
+  position: relative;
+  padding: 1.75rem 2rem 2rem;
+  background: color-mix(
+    in srgb,
+    var(--surface) var(--section-pct, 72%),
+    transparent
+  );
+  @include cut;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4px;
+    background: var(--primary);
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+  }
+}
+
+.vl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 2rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.vl-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+
+  &__title {
+    align-self: stretch;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  > .vl-field,
+  > .vl-range,
+  > .vl-progress,
+  > .vl-tabs,
+  > .vl-acc,
+  > .vl-crumbs,
+  > .vl-pager,
+  > .vl-pager-demo,
+  > .vl-g-container,
+  > .vl-g-row,
+  > .vl-img,
+  > .vl-card {
+    align-self: stretch;
+  }
+
+  > .vl-card {
+    flex: 1;
+  }
+}
+
+.vl-type {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+
+  &__row {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  &__tag {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+}
+
+/* ---------- Hilfsklassen ---------- */
+
+.vl-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.vl-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.vl-sub {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.vl-alertlist {
+  width: 100%;
+  max-width: 720px;
+  margin-top: 1.5rem;
+
+  &__item {
+    overflow: hidden;
+  }
+}
+
+.vl-pager-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__page {
+    display: grid;
+    place-items: center;
+    height: 64px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: 24px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------- Text & Bild ---------- */
+
+.vl-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.vl-col > .vl-car,
+.vl-col > .vl-hero,
+.vl-col > .vl-media {
+  align-self: stretch;
+}
+
+.vl-stack .vl-g-container {
+  outline: 1px dashed var(--edge);
+}
+
+/* ---------- Header / Footer ---------- */
+
+.vl-shell {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+
+  &__main {
+    display: grid;
+    flex: 1;
+    place-items: center;
+    min-height: 120px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+}
+
+.vl-row--compact .vl-btn {
+  width: auto;
+  min-width: 5rem;
+  padding: 0 16px;
+}
+
+@media (max-width: 720px) {
+  .vl-type__row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  .vl-section {
+    padding: 1.5rem 1.25rem;
+  }
+}

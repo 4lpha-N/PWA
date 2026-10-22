@@ -1,0 +1,124 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Progress ---------- */
+
+.vl-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  &__value {
+    font-size: 15px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__bar {
+    position: relative;
+    overflow: hidden;
+    height: 12px;
+    background: color-mix(in srgb, var(--b) 28%, var(--surface));
+    @include cut(4px);
+  }
+
+  &__fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: calc(var(--p) * 100%);
+    background: var(--b);
+    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    @include cut(4px);
+  }
+
+  // Zehn Segmente: Lücke von 3px am Ende jeder Kachel
+  &--segmented &__bar {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      #000 calc(100% - 3px),
+      transparent 0
+    );
+    mask-image: linear-gradient(90deg, #000 calc(100% - 3px), transparent 0);
+    -webkit-mask-size: calc((100% + 3px) / 10) 100%;
+    mask-size: calc((100% + 3px) / 10) 100%;
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+  }
+
+  &.is-indeterminate &__fill {
+    width: 35%;
+    animation: vl-progress-slide 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  // Heller Streifen läuft nur über den gefüllten Teil
+  &.is-loading &__fill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--on-fg) 45%, transparent),
+      transparent
+    );
+    transform: translateX(-100%);
+    animation: vl-progress-shine 1.4s ease-in-out infinite;
+  }
+
+  &__hint {
+    font-size: 0.75rem;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  &--primary {
+    --b: var(--primary);
+  }
+  &--secondary {
+    --b: var(--link-2);
+  }
+
+  &.is-error {
+    --b: var(--error);
+
+    .vl-progress__hint,
+    .vl-progress__value {
+      color: var(--error);
+    }
+  }
+}
+
+@keyframes vl-progress-slide {
+  from {
+    left: -35%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes vl-progress-shine {
+  to {
+    transform: translateX(100%);
+  }
+}

@@ -1,0 +1,238 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Slider ---------- */
+
+// Schieber: 16x28, Griffstrich in --ct; Breite muss zu THUMB_W in Design.tsx passen
+@mixin range-thumb {
+  box-sizing: border-box;
+  width: 16px;
+  height: 28px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--b);
+  background-image: linear-gradient(var(--ct), var(--ct));
+  background-position: center;
+  background-size: 2px 12px;
+  background-repeat: no-repeat;
+  cursor: grab;
+  transition:
+    transform 0.15s,
+    background-color 0.2s;
+  @include cut(6px);
+}
+
+.vl-range {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  &__value {
+    font-size: 15px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg);
+  }
+
+  &__body {
+    position: relative;
+    height: 48px;
+    touch-action: none;
+  }
+
+  &__track,
+  &__fill {
+    position: absolute;
+    top: 10px;
+    height: 8px;
+    transition:
+      transform 0.15s,
+      background 0.2s;
+    @include cut(3px);
+  }
+
+  &__track {
+    right: 0;
+    left: 0;
+    background: color-mix(in srgb, var(--b) 28%, var(--surface));
+  }
+
+  // Bereich zwischen den Knopfmitten (Einzelknopf: ab Anfang)
+  &__fill {
+    left: calc(var(--lo) * (100% - 16px) + 8px);
+    right: calc((1 - var(--hi)) * (100% - 16px) + 8px);
+    background: var(--b);
+  }
+  &:not(&--dual) &__fill {
+    left: 0;
+  }
+
+  // Skalastriche unter der Schiene
+  &__ticks {
+    position: absolute;
+    right: 7px;
+    bottom: 12px;
+    left: 7px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 6px;
+    pointer-events: none;
+
+    span {
+      position: relative;
+      width: 2px;
+      height: 4px;
+      background: color-mix(in srgb, var(--b) 45%, transparent);
+      transition: background 0.2s;
+
+      &.is-major {
+        height: 6px;
+      }
+
+      // Zahl nur an den großen Strichen (Anfang, Mitte, Ende), mittig darunter
+      &.is-major::after {
+        content: attr(data-v);
+        position: absolute;
+        top: calc(100% + 2px);
+        left: 50%;
+        font-size: 9px;
+        line-height: 10px;
+        letter-spacing: 0.02em;
+        font-variant-numeric: tabular-nums;
+        color: var(--muted);
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  &__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    outline: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+
+    &.is-top {
+      z-index: 2;
+    }
+
+    &::-webkit-slider-runnable-track {
+      height: 28px;
+      background: transparent;
+    }
+    &::-moz-range-track {
+      height: 28px;
+      background: transparent;
+    }
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      @include range-thumb;
+    }
+    &::-moz-range-thumb {
+      @include range-thumb;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  // Zwei Knöpfe: nur die Schieber fangen Zeiger, die Schiene klickt der Wrapper
+  &--dual &__input {
+    pointer-events: none;
+
+    &::-webkit-slider-thumb {
+      pointer-events: auto;
+    }
+    &::-moz-range-thumb {
+      pointer-events: auto;
+    }
+  }
+
+  // Hover/Fokus: Schieber wächst; Fokus zusätzlich in Ringfarbe und dickere Schiene
+  &:not(.is-disabled) &__input:hover::-webkit-slider-thumb,
+  &:not(.is-disabled) &__input:focus-visible::-webkit-slider-thumb {
+    transform: scale(1.25, 1.1);
+  }
+  &:not(.is-disabled) &__input:hover::-moz-range-thumb,
+  &:not(.is-disabled) &__input:focus-visible::-moz-range-thumb {
+    transform: scale(1.25, 1.1);
+  }
+  &:not(.is-disabled) &__input:focus-visible::-webkit-slider-thumb,
+  &:not(.is-disabled) &__input:active::-webkit-slider-thumb {
+    background-color: var(--ring);
+  }
+  &:not(.is-disabled) &__input:focus-visible::-moz-range-thumb,
+  &:not(.is-disabled) &__input:active::-moz-range-thumb {
+    background-color: var(--ring);
+  }
+  &:not(.is-disabled) &__input:active::-webkit-slider-thumb {
+    cursor: grabbing;
+  }
+  &:not(.is-disabled) &__input:active::-moz-range-thumb {
+    cursor: grabbing;
+  }
+  &:has(&__input:focus-visible) &__track,
+  &:has(&__input:focus-visible) &__fill {
+    transform: scaleY(1.5);
+  }
+
+  &__hint {
+    font-size: 0.75rem;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --ct: var(--on-primary);
+    --ring: var(--primary-hover);
+  }
+  &--secondary {
+    --b: var(--link-2);
+    --ct: var(--on-alt);
+    --ring: var(--primary);
+  }
+
+  &.is-error {
+    --b: var(--error);
+    --ct: var(--surface);
+
+    .vl-range__hint {
+      color: var(--error);
+    }
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,60 @@
+@use "../../styles/mixins" as *;
+
+.vl-popover__foot .vl-btn {
+  width: auto;
+  min-width: 5rem;
+  padding: 0 16px;
+}
+
+.design-wrapper.vl-popover {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 320px;
+  max-width: calc(100vw - 16px);
+  padding: 18px 20px 20px;
+  color: var(--fg);
+  outline: none;
+  background: var(--b);
+  --bw: 2px;
+  @include cut(12px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    z-index: -1;
+    background: var(--surface);
+    @include cut-inner(12px);
+  }
+}
+.design-wrapper.vl-popover--primary {
+  --b: var(--primary);
+}
+.design-wrapper.vl-popover--secondary {
+  --b: var(--link-2);
+}
+
+.vl-popover__title {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vl-popover__text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--muted);
+}
+
+.vl-popover__foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}

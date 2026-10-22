@@ -1,0 +1,88 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Icon-Button (Slider, Hero) ---------- */
+
+.vl-ibtn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: var(--b);
+  color: var(--fg);
+  cursor: pointer;
+  --bw: 2px;
+  transition: color 0.2s;
+  @include cut(8px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    z-index: -1;
+    background: var(--f);
+    transition: background 0.2s;
+    @include cut-inner(8px);
+  }
+
+  &:hover:not(:disabled) {
+    --f: var(--fh);
+  }
+  &:focus-visible {
+    outline: none;
+    --b: var(--ring);
+    --bw: 4px;
+    --f: var(--fh);
+  }
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  // Liegt auf Bildern: feste, vom Theme unabhängige Farben für sicheren Kontrast
+  &--over {
+    --b: var(--b-over);
+    --f: color-mix(in srgb, #{$c-ink} 78%, transparent);
+    --fh: #{$c-ink};
+    --ring: #{$c-white};
+    color: $c-bone;
+  }
+
+  &__arrow {
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: translateX(-2px) rotate(45deg);
+
+    &--prev {
+      transform: translateX(2px) rotate(-135deg);
+    }
+  }
+
+  &__icon {
+    display: block;
+    width: 14px;
+    height: 14px;
+
+    &--pause {
+      box-sizing: border-box;
+      border-right: 4px solid currentColor;
+      border-left: 4px solid currentColor;
+    }
+    &--play {
+      margin-left: 2px;
+      background: currentColor;
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+  }
+}

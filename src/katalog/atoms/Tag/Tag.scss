@@ -1,0 +1,167 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Badge / Tag / Chip ---------- */
+
+.vl-tag {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  height: var(--h);
+  padding: 0 var(--px);
+  border: 0;
+  background: var(--b);
+  color: var(--t);
+  font: inherit;
+  font-size: var(--fs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  --bw: 2px;
+  transition: color 0.2s;
+  @include cut(var(--c));
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    z-index: -1;
+    background: var(--f);
+    transition: background 0.2s;
+    @include cut-inner(var(--c));
+  }
+
+  &__dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    background: var(--fill);
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+    transition:
+      opacity 0.2s,
+      background 0.2s;
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --fill: var(--primary);
+    --on: var(--on-primary);
+    --tint: color-mix(in srgb, var(--primary) 28%, var(--surface));
+    --tint-h: color-mix(in srgb, var(--primary) 38%, var(--surface));
+    --ring: var(--primary-hover);
+  }
+  &--outline {
+    --b: var(--edge);
+    --fill: var(--fg);
+    --on: var(--on-fg);
+    --tint: var(--surface);
+    --tint-h: color-mix(in srgb, var(--fg) 10%, var(--surface));
+    --ring: var(--alt);
+    --bw: 1px;
+  }
+  &--alt {
+    --b: var(--alt);
+    --fill: var(--alt);
+    --on: var(--on-alt);
+    --tint: var(--surface);
+    --tint-h: color-mix(in srgb, var(--alt) 12%, var(--surface));
+    --ring: var(--fg);
+  }
+
+  // Badge: gefüllt, klein
+  &--badge {
+    --h: 20px;
+    --px: 8px;
+    --fs: 12px;
+    --c: 5px;
+    --b: var(--fill);
+    --f: var(--fill);
+    --t: var(--on);
+  }
+
+  // Outline-Badge: hohl statt gefüllt
+  &--badge#{&}--outline {
+    --b: var(--fg);
+    --f: var(--surface);
+    --t: var(--fg);
+    --bw: 2px;
+  }
+
+  // Tag: Rahmen, getönte Fläche, Raute
+  &--tag {
+    --h: 28px;
+    --px: 12px;
+    --fs: 12px;
+    --c: 7px;
+    --f: var(--tint);
+    --t: var(--fg);
+  }
+
+  // Chip: wie Tag, aber schaltbar
+  &--chip {
+    --h: 32px;
+    --px: 14px;
+    --fs: 12px;
+    --c: 8px;
+    --f: var(--tint);
+    --t: var(--fg);
+    cursor: pointer;
+
+    .vl-tag__dot {
+      opacity: 0.45;
+    }
+
+    &:hover:not(:disabled, .is-selected) {
+      --f: var(--tint-h);
+    }
+    &:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+  }
+
+  &--chip.is-selected {
+    --b: var(--fill);
+    --f: var(--fill);
+    --t: var(--on);
+
+    .vl-tag__dot {
+      opacity: 1;
+      background: var(--on);
+    }
+
+    &:hover:not(:disabled) {
+      --f: color-mix(in srgb, var(--fill) 82%, var(--surface));
+    }
+  }
+
+  // Outline-Chip gewählt: getönt statt gefüllt
+  &--chip.is-selected#{&}--outline {
+    --b: var(--fg);
+    --f: color-mix(in srgb, var(--fg) 18%, var(--surface));
+    --t: var(--fg);
+    --bw: 2px;
+
+    .vl-tag__dot {
+      background: var(--fg);
+    }
+
+    &:hover:not(:disabled) {
+      --f: color-mix(in srgb, var(--fg) 28%, var(--surface));
+    }
+  }
+
+  &--chip:focus-visible,
+  &--chip.is-selected#{&}--outline:focus-visible {
+    outline: none;
+    --b: var(--ring);
+    --bw: 3px;
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,123 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Checkboxen ---------- */
+
+.vl-check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+  }
+
+  &__box {
+    position: relative;
+    isolation: isolate;
+    flex: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--b);
+    --bw: 2px;
+    transition:
+      background 0.2s,
+      transform 0.15s;
+    @include cut(6px);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--bw);
+      z-index: -1;
+      background: var(--f);
+      transition: background 0.2s;
+      @include cut-inner(6px);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 46%;
+      left: 50%;
+      width: 6px;
+      height: 12px;
+      border: solid var(--ct);
+      border-width: 0 3px 3px 0;
+      transform: translate(-50%, -55%) rotate(45deg) scale(0);
+      transition: transform 0.15s;
+    }
+  }
+
+  &__label {
+    font-size: 15px;
+    line-height: 24px;
+    letter-spacing: 0.06em;
+  }
+
+  &:not(.is-disabled):hover .vl-check__box::before {
+    background: color-mix(in srgb, var(--b) 28%, var(--f));
+  }
+
+  .vl-check__input:checked + .vl-check__box::before {
+    background: var(--cf);
+  }
+  &:not(.is-disabled):hover .vl-check__input:checked + .vl-check__box::before {
+    background: color-mix(in srgb, var(--cf) 82%, var(--surface));
+  }
+  .vl-check__input:checked + .vl-check__box::after {
+    transform: translate(-50%, -55%) rotate(45deg) scale(1);
+  }
+  .vl-check__input:focus-visible + .vl-check__box {
+    --b: var(--ring);
+    --bw: 4px;
+    transform: scale(1.1);
+  }
+
+  // Radio: Achteck mit Punkt statt Quadrat mit Haken
+  &--radio &__box {
+    @include cut-oct(8px);
+
+    &::before {
+      @include cut-oct(calc(8px - 0.586 * var(--bw)));
+    }
+    &::after {
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border: 0;
+      background: var(--ct);
+      transform: translate(-50%, -50%) scale(0);
+      @include cut-oct(2px);
+    }
+  }
+  &--radio .vl-check__input:checked + .vl-check__box::after {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: var(--surface);
+    --cf: var(--primary);
+    --ct: var(--on-primary);
+    --ring: var(--primary-hover);
+  }
+  &--secondary {
+    --b: var(--link-2);
+    --f: var(--surface);
+    --cf: var(--link-2);
+    --ct: var(--on-alt);
+    --ring: var(--primary);
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}

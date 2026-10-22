@@ -1,0 +1,254 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Hero ---------- */
+
+@keyframes vl-hero-fill {
+  from {
+    transform: skewX(-24deg) scaleX(0);
+  }
+  to {
+    transform: skewX(-24deg) scaleX(1);
+  }
+}
+
+.vl-hero {
+  min-width: 0;
+
+  &--primary {
+    --b-over: var(--primary);
+  }
+  &--secondary {
+    --b-over: #{$c-bone};
+  }
+
+  &__stage {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 420px;
+    aspect-ratio: 21 / 9;
+    background: color-mix(in srgb, var(--fg) 8%, var(--surface));
+    @include cut(12px);
+  }
+
+  &__slide {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity 0.6s,
+      visibility 0s 0.6s;
+
+    &.is-active {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.6s;
+    }
+  }
+
+  &__img,
+  &__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // Dunkler Verlauf: Text bleibt auf jedem Bild und in jedem Theme lesbar
+  &__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        0deg,
+        color-mix(in srgb, #{$c-ink} 85%, transparent) 0%,
+        transparent 45%
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, #{$c-ink} 88%, transparent) 0%,
+        color-mix(in srgb, #{$c-ink} 50%, transparent) 55%,
+        transparent 100%
+      );
+  }
+
+  &__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: 36rem;
+    padding: 32px 32px 92px;
+    color: $c-bone;
+  }
+
+  &__eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: $c-red;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 7px;
+      height: 14px;
+      margin-right: 10px;
+      background: currentColor;
+      transform: skewX(-20deg);
+      vertical-align: -2px;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 40px;
+    line-height: 42px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  &__note {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    padding: 6px 12px;
+    background: color-mix(in srgb, #{$c-ink} 78%, transparent);
+    color: $c-bone;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    @include cut(6px);
+  }
+
+  &__bar {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__dots {
+    display: flex;
+    flex: 1;
+    gap: 6px;
+    max-width: 360px;
+    margin: 0 0 0 12px;
+    padding: 0;
+    list-style: none;
+
+    li {
+      flex: 1;
+    }
+  }
+
+  // Schräger Balken, der sich über die Anzeigedauer der Folie füllt
+  &__dot {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+
+    &::before,
+    .vl-hero__fill {
+      content: "";
+      position: absolute;
+      top: 10px;
+      right: 0;
+      left: 0;
+      height: 4px;
+      transform: skewX(-24deg);
+    }
+    &::before {
+      background: color-mix(in srgb, #{$c-bone} 35%, transparent);
+      transition: background 0.2s;
+    }
+    &:hover::before {
+      background: color-mix(in srgb, #{$c-bone} 60%, transparent);
+    }
+    &[aria-current="true"]::before {
+      background: color-mix(in srgb, #{$c-bone} 60%, transparent);
+    }
+    &:focus-visible {
+      outline: 2px solid $c-white;
+      outline-offset: 2px;
+    }
+  }
+
+  &__fill {
+    background: var(--b-over);
+    transform-origin: left center;
+    animation: vl-hero-fill var(--ms, 6000ms) linear forwards;
+  }
+  &.is-paused &__fill,
+  &:hover &__fill,
+  &:focus-within &__fill {
+    animation-play-state: paused;
+  }
+
+  &__count {
+    margin-left: auto;
+    color: $c-bone;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (max-width: 720px) {
+  // Hero: Fortschrittsbalken in eigener Zeile, Steuerung darunter
+  .vl-hero {
+    &__stage {
+      min-height: 440px;
+      aspect-ratio: auto;
+    }
+    &__content {
+      gap: 10px;
+      padding: 20px 16px 116px;
+    }
+    &__title {
+      font-size: 24px;
+      line-height: 28px;
+    }
+    &__text {
+      font-size: 14px;
+      line-height: 22px;
+    }
+    &__bar {
+      right: 12px;
+      bottom: 12px;
+      left: 12px;
+      flex-wrap: wrap;
+    }
+    &__dots {
+      flex: 1 0 100%;
+      order: -1;
+      max-width: none;
+      margin: 0 0 2px;
+    }
+  }
+}

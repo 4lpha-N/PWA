@@ -1,0 +1,26 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Tooltip / Popover (außerhalb der Seite, mit eigenen Theme-Tokens) ---------- */
+
+.vl-tip {
+  display: inline-flex;
+}
+
+.design-wrapper.vl-tooltip {
+  box-sizing: border-box;
+  max-width: 240px;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  @include cut(6px);
+}
+.design-wrapper.vl-tooltip--primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.design-wrapper.vl-tooltip--secondary {
+  background: var(--fg);
+  color: var(--on-fg);
+}

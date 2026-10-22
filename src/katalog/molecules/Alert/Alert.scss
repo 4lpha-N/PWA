@@ -1,0 +1,141 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Alert / Toast ---------- */
+
+.vl-alert {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 14px 14px 14px 22px;
+  background: var(--b);
+  --bw: 2px;
+  @include cut(12px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: var(--bw);
+    z-index: -1;
+    background: var(--f);
+    @include cut-inner(12px);
+  }
+
+  // Akzentleiste links
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 6px;
+    background: var(--bar);
+  }
+
+  &__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    background: var(--bar);
+    color: var(--on);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    @include cut(6px);
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    display: block;
+    font-size: 13px;
+    line-height: 24px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--muted);
+  }
+
+  // Ablaufbalken des Toasts
+  &__timer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 6px;
+    height: 3px;
+    background: var(--bar);
+    transform-origin: left center;
+    animation: vl-timer linear forwards;
+  }
+
+  &--info {
+    --b: var(--edge);
+    --f: color-mix(in srgb, var(--fg) 6%, var(--surface));
+    --bar: var(--fg);
+    --on: var(--on-fg);
+  }
+  &--success {
+    --b: var(--alt);
+    --f: color-mix(in srgb, var(--alt) 14%, var(--surface));
+    --bar: var(--alt);
+    --on: var(--on-alt);
+  }
+  &--warn {
+    --b: var(--error);
+    --f: color-mix(in srgb, var(--error) 14%, var(--surface));
+    --bar: var(--error);
+    --on: var(--surface);
+  }
+}
+
+@keyframes vl-timer {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.vl-toast-wrap {
+  pointer-events: auto;
+  filter: drop-shadow(
+    0 8px 18px color-mix(in srgb, #{$c-ink} 45%, transparent)
+  );
+
+  // Hover/Fokus hält den Ablauf an
+  &:hover .vl-alert__timer,
+  &:focus-within .vl-alert__timer {
+    animation-play-state: paused;
+  }
+}
+
+.design-wrapper.vl-toasts {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1400;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(360px, calc(100vw - 32px));
+  min-height: 0;
+  overflow: visible;
+  background: transparent;
+  pointer-events: none;
+}

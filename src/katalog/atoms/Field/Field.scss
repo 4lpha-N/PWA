@@ -1,0 +1,139 @@
+@use "../../styles/mixins" as *;
+
+/* ---------- Inputs / Select ---------- */
+
+.vl-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__label {
+    font-size: 0.75rem;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  &__box {
+    position: relative;
+    isolation: isolate;
+    background: var(--b);
+    --bw: 2px;
+    @include cut;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--bw);
+      z-index: -1;
+      background: var(--f);
+      transition: background 0.2s;
+      @include cut-inner;
+    }
+
+    // > schließt das disabled-<option> (Platzhalter) im Select aus
+    &:hover:not(:has(:focus-visible, > :disabled)) {
+      --f: var(--fh);
+    }
+
+    &:has(:focus-visible) {
+      --b: var(--ring);
+      --f: var(--ff);
+      --bw: 3px;
+    }
+  }
+
+  &__control {
+    display: block;
+    width: 100%;
+    padding: 14px 18px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--fg);
+    font: inherit;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 0.04em;
+
+    &::placeholder {
+      color: var(--muted);
+    }
+
+    &--select {
+      appearance: none;
+      padding-right: 44px;
+      cursor: pointer;
+
+      option {
+        background: var(--surface);
+        color: var(--fg);
+      }
+    }
+  }
+
+  &__box--select::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--fg);
+    border-bottom: 2px solid var(--fg);
+    transform: translateY(-70%) rotate(45deg);
+    transition: transform 0.2s;
+    pointer-events: none;
+  }
+  &__box--select:focus-within::after {
+    transform: translateY(-30%) rotate(225deg);
+  }
+
+  &__hint {
+    font-size: 0.75rem;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  &--primary {
+    --b: var(--primary);
+    --f: color-mix(in srgb, var(--primary) 16%, var(--surface));
+    --ring: var(--primary-hover);
+    --fh: color-mix(in srgb, var(--primary) 24%, var(--surface));
+    --ff: color-mix(in srgb, var(--primary) 28%, var(--surface));
+  }
+  &--outline {
+    --b: var(--edge);
+    --f: var(--surface);
+    --ring: var(--alt);
+    --fh: color-mix(in srgb, var(--fg) 6%, var(--surface));
+    --ff: color-mix(in srgb, var(--fg) 10%, var(--surface));
+  }
+  &--alt {
+    --b: var(--alt);
+    --f: var(--surface);
+    --ring: var(--fg);
+    --fh: color-mix(in srgb, var(--alt) 10%, var(--surface));
+    --ff: color-mix(in srgb, var(--alt) 18%, var(--surface));
+  }
+
+  &.is-error {
+    --b: var(--error);
+    --ring: var(--error);
+
+    .vl-field__hint {
+      color: var(--error);
+    }
+  }
+
+  &.is-disabled {
+    opacity: 0.45;
+
+    .vl-field__control {
+      cursor: not-allowed;
+    }
+  }
+}

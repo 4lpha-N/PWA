@@ -1,0 +1,72 @@
+@use "../../styles/mixins" as *;
+
+.vl-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding: 0 20px;
+  background: var(--surface);
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.vl-header {
+  min-height: 56px;
+  border-bottom: 2px solid var(--primary);
+
+  &__brand {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  &__nav {
+    gap: 4px;
+  }
+
+  &__link {
+    position: relative;
+    display: block;
+    padding: 18px 12px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      bottom: -2px;
+      left: 12px;
+      height: 2px;
+      background: var(--fg);
+      transform: scaleX(0);
+      transition: transform 0.2s;
+    }
+
+    &:hover,
+    &.is-active {
+      color: var(--fg);
+    }
+    &.is-active::after {
+      transform: scaleX(1);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--primary-hover);
+      outline-offset: -2px;
+    }
+  }
+}

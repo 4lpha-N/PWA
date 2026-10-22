@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import "./styles/base.scss";
-import { ThemeProvider } from "./layout/ThemeProvider/ThemeProvider";
+import { ThemeProvider } from "./components/layout/ThemeProvider/ThemeProvider";
 import "./styles/demo.scss";
 import {
   DEMO_ACCORDION,
@@ -21,34 +21,39 @@ import type { Tone } from "./lib/tones";
 import { TONES } from "./lib/tones";
 import { cx } from "./lib/cx";
 import { ThemeClassContext } from "./lib/ThemeClassContext";
-import { Decor } from "./layout/Decor/Decor";
+import { Decor } from "./components/layout/Decor/Decor";
 import { DECOR_OPTIONS } from "./lib/decor";
-import { SegToggle } from "./atoms/SegToggle/SegToggle";
-import { VlButton } from "./atoms/Button/Button";
-import { VlInput, VlSelect } from "./atoms/Field/Field";
-import { VlCheck } from "./atoms/Check/Check";
-import { VlSwitch } from "./atoms/Switch/Switch";
-import { VlSlider } from "./atoms/Slider/Slider";
-import { VlLink } from "./atoms/Link/Link";
-import { VlRadioGroup } from "./atoms/Radio/Radio";
-import { VlTag } from "./atoms/Tag/Tag";
-import { VlAlert } from "./molecules/Alert/Alert";
-import { VlProgress } from "./atoms/Progress/Progress";
-import { VlTabs } from "./molecules/Tabs/Tabs";
-import { VlAccordion } from "./molecules/Accordion/Accordion";
-import { VlCrumbs } from "./molecules/Breadcrumb/Breadcrumb";
-import { VlPagination } from "./molecules/Pagination/Pagination";
-import { VlImage } from "./atoms/Image/Image";
-import { VlCarousel } from "./organism/Carousel/Carousel";
-import { VlHero } from "./organism/Hero/Hero";
-import { VlMedia } from "./molecules/Media/Media";
-import { VlCard } from "./molecules/Card/Card";
-import { VlOverlay } from "./organism/Overlay/Overlay";
-import { GridCell, GridCol, GridContainer, GridRow } from "./layout/Grid/Grid";
-import { VlHeader } from "./organism/Header/Header";
-import { VlFooter } from "./organism/Footer/Footer";
-import { VlTooltip } from "./atoms/Tooltip/Tooltip";
-import { VlPopover } from "./molecules/Popover/Popover";
+import { SegToggle } from "./components/atoms/SegToggle/SegToggle";
+import { VlButton } from "./components/atoms/Button/Button";
+import { VlInput, VlSelect } from "./components/atoms/Field/Field";
+import { VlCheck } from "./components/atoms/Check/Check";
+import { VlSwitch } from "./components/atoms/Switch/Switch";
+import { VlSlider } from "./components/atoms/Slider/Slider";
+import { VlLink } from "./components/atoms/Link/Link";
+import { VlRadioGroup } from "./components/atoms/Radio/Radio";
+import { VlTag } from "./components/atoms/Tag/Tag";
+import { VlAlert } from "./components/molecules/Alert/Alert";
+import { VlProgress } from "./components/atoms/Progress/Progress";
+import { VlTabs } from "./components/molecules/Tabs/Tabs";
+import { VlAccordion } from "./components/molecules/Accordion/Accordion";
+import { VlCrumbs } from "./components/molecules/Breadcrumb/Breadcrumb";
+import { VlPagination } from "./components/molecules/Pagination/Pagination";
+import { VlImage } from "./components/atoms/Image/Image";
+import { VlCarousel } from "./components/organism/Carousel/Carousel";
+import { VlHero } from "./components/organism/Hero/Hero";
+import { VlMedia } from "./components/molecules/Media/Media";
+import { VlCard } from "./components/molecules/Card/Card";
+import { VlOverlay } from "./components/organism/Overlay/Overlay";
+import {
+  GridCell,
+  GridCol,
+  GridContainer,
+  GridRow,
+} from "./components/layout/Grid/Grid";
+import { VlHeader } from "./components/organism/Header/Header";
+import { VlFooter } from "./components/organism/Footer/Footer";
+import { VlTooltip } from "./components/atoms/Tooltip/Tooltip";
+import { VlPopover } from "./components/molecules/Popover/Popover";
 
 const THEMES: { id: Theme; label: string }[] = [
   { id: "dark", label: "Dunkel" },

@@ -8,12 +8,12 @@ import {
 } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent, ReactNode } from "react";
 import { createPortal } from "react-dom";
-import type { Side } from "../../lib/useFloat";
-import { useFloat } from "../../lib/useFloat";
-import { FOCUSABLE } from "../../lib/focus";
-import type { SimpleVariant } from "../../lib/types";
-import { cx } from "../../lib/cx";
-import { ThemeClassContext } from "../../lib/ThemeClassContext";
+import type { Side } from "../../../lib/useFloat";
+import { useFloat } from "../../../lib/useFloat";
+import { FOCUSABLE } from "../../../lib/focus";
+import type { SimpleVariant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
+import { ThemeClassContext } from "../../../lib/ThemeClassContext";
 import { VlButton } from "../../atoms/Button/Button";
 import "./Popover.scss";
 

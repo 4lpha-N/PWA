@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { ThemeClassContext } from "../../lib/ThemeClassContext";
-import type { Theme } from "../../lib/types";
-import "../../styles/base.scss";
+import { ThemeClassContext } from "../../../lib/ThemeClassContext";
+import type { Theme } from "../../../lib/types";
+import "../../../styles/base.scss";
 import "./ThemeProvider.scss";
 
 // Muss zur Dauer der Farb-Transition in styles/base.scss passen ($theme-ease)

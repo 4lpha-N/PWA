@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { CSSProperties, PointerEvent } from "react";
-import type { SimpleVariant } from "../../lib/types";
+import type { SimpleVariant } from "../../../lib/types";
 import "./Slider.scss";
 
 // Muss zur Schieberbreite in Slider.scss passen

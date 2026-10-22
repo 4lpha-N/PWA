@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes } from "react";
-import { cx } from "../../lib/cx";
+import { cx } from "../../../lib/cx";
 import "./IconButton.scss";
 
 type IconKind = "prev" | "next" | "play" | "pause";

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { SimpleVariant } from "../../lib/types";
-import { cx } from "../../lib/cx";
+import type { SimpleVariant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
 import "./Pagination.scss";
 
 // Erste, letzte und aktuelle Seite samt Nachbarn; Lücken als "…"

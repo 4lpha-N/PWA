@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent, PointerEvent } from "react";
-import { pad2 } from "../../lib/pad2";
-import type { SimpleVariant } from "../../lib/types";
-import { cx } from "../../lib/cx";
+import { pad2 } from "../../../lib/pad2";
+import type { SimpleVariant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
 import { VlImage } from "../../atoms/Image/Image";
 import { IconButton } from "../../atoms/IconButton/IconButton";
 import "./Carousel.scss";

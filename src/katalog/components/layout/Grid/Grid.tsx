@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { cx } from "../../lib/cx";
+import { cx } from "../../../lib/cx";
 import "./Grid.scss";
 
 type GridBp = "base" | "md" | "lg" | "xl";

@@ -1,4 +1,4 @@
-import type { SimpleVariant } from "../../lib/types";
+import type { SimpleVariant } from "../../../lib/types";
 import "./Switch.scss";
 
 export function VlSwitch({

@@ -1,4 +1,4 @@
-@use "../../styles/mixins" as *;
+@use "../../../styles/mixins" as *;
 
 // Registrierte Farb-Tokens: nur so lassen sich Custom Properties animieren,
 // alle abgeleiteten Werte (Hintergründe, Ränder, Texte) laufen dadurch synchron.

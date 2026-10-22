@@ -1,7 +1,7 @@
-import type { TabItem } from "../molecules/Tabs/Tabs";
-import type { AccordionItem } from "../molecules/Accordion/Accordion";
-import type { SlideItem } from "../organism/Carousel/Carousel";
-import type { HeroSlide } from "../organism/Hero/Hero";
+import type { TabItem } from "../components/molecules/Tabs/Tabs";
+import type { AccordionItem } from "../components/molecules/Accordion/Accordion";
+import type { SlideItem } from "../components/organism/Carousel/Carousel";
+import type { HeroSlide } from "../components/organism/Hero/Hero";
 
 // Platzhalterbild; feste Farben, da es ein Bild und kein Theme-Element ist
 export const DEMO_IMAGE =

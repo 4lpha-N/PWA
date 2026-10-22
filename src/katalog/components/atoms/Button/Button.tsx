@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes } from "react";
-import type { Variant } from "../../lib/types";
+import type { Variant } from "../../../lib/types";
 import "./Button.scss";
 
 interface VlButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

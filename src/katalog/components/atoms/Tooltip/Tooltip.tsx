@@ -8,11 +8,11 @@ import {
 } from "react";
 import type { ReactElement } from "react";
 import { createPortal } from "react-dom";
-import type { Side } from "../../lib/useFloat";
-import { useFloat } from "../../lib/useFloat";
-import type { SimpleVariant } from "../../lib/types";
-import { cx } from "../../lib/cx";
-import { ThemeClassContext } from "../../lib/ThemeClassContext";
+import type { Side } from "../../../lib/useFloat";
+import { useFloat } from "../../../lib/useFloat";
+import type { SimpleVariant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
+import { ThemeClassContext } from "../../../lib/ThemeClassContext";
 import "./Tooltip.scss";
 
 export function VlTooltip({

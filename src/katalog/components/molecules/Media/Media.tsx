@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import type { Variant } from "../../lib/types";
-import { cx } from "../../lib/cx";
+import type { Variant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
 import "./Media.scss";
 
 export function VlMedia({

@@ -1,8 +1,8 @@
 import { useId, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent, ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import type { SimpleVariant } from "../../lib/types";
-import { cx } from "../../lib/cx";
+import type { SimpleVariant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
 import "./Tabs.scss";
 
 export interface TabItem {

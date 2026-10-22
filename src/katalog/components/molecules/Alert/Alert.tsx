@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import type { Tone } from "../../lib/tones";
-import { TONES } from "../../lib/tones";
+import type { Tone } from "../../../lib/tones";
+import { TONES } from "../../../lib/tones";
 import "./Alert.scss";
 
 export function VlAlert({

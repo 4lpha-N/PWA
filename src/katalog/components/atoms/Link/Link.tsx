@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { SimpleVariant } from "../../lib/types";
+import type { SimpleVariant } from "../../../lib/types";
 import "./Link.scss";
 
 export function VlLink({

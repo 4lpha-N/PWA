@@ -1,5 +1,5 @@
 import { useId } from "react";
-import type { Variant } from "../../lib/types";
+import type { Variant } from "../../../lib/types";
 import "./Field.scss";
 
 interface FieldProps {

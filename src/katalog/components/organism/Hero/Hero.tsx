@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, KeyboardEvent as ReactKeyboardEvent } from "react";
 import { useReducedMotion } from "framer-motion";
-import { pad2 } from "../../lib/pad2";
-import type { SimpleVariant } from "../../lib/types";
-import { cx } from "../../lib/cx";
+import { pad2 } from "../../../lib/pad2";
+import type { SimpleVariant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
 import { VlButton } from "../../atoms/Button/Button";
 import { IconButton } from "../../atoms/IconButton/IconButton";
 import "./Hero.scss";

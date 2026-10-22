@@ -1,4 +1,4 @@
-@use "../../styles/mixins" as *;
+@use "../../../styles/mixins" as *;
 
 // Ecken-Größen des Toggle-Schiebers, animierbar damit die Ecke mitwandert
 @property --thumb-tr {

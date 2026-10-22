@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { cx } from "../../lib/cx";
+import { cx } from "../../../lib/cx";
 import "./Header.scss";
 
 const NAV_ITEMS = ["Seite 1", "Seite 2", "Seite 3"];

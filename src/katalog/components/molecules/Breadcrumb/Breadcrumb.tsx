@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { SimpleVariant } from "../../lib/types";
+import type { SimpleVariant } from "../../../lib/types";
 import "./Breadcrumb.scss";
 
 export function VlCrumbs({

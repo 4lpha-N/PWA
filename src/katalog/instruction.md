@@ -4,16 +4,16 @@ Der Ordner `katalog` ist eigenständig: Er importiert nur `react`, `react-dom` u
 
 ## Struktur
 
-Jede Komponente liegt in `<Ebene>/<Name>/<Name>.tsx` mit passender `<Name>.scss`. Klassen sind globale `vl-`-BEM-Klassen (keine CSS Modules).
+Jede Komponente liegt in `components/<Ebene>/<Name>/<Name>.tsx` mit passender `<Name>.scss`. Klassen sind globale `vl-`-BEM-Klassen (keine CSS Modules).
 
-| Ebene        | Inhalt                                                                                                                                       |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `atoms/`     | Button (`VlButton`), Field (`VlInput`, `VlSelect`), Check, Radio, Switch, Slider, Link, Tag, Tooltip, Image, Progress, IconButton, SegToggle |
-| `molecules/` | Alert, Breadcrumb (`VlCrumbs`), Pagination, Tabs, Accordion, Popover, Card, Media                                                            |
-| `organism/`  | Header, Footer, Hero, Carousel, Overlay (Modal/Drawer)                                                                                       |
-| `layout/`    | `ThemeProvider`, Grid (`GridContainer`, `GridRow`, `GridCol`, `GridCell`), Decor (Hintergrund-Dekor)                                         |
-| `lib/`       | `types` (Theme, Variant), `cx`, `ThemeClassContext`, `useFloat`, `focus`, `pad2`, `tones`                                                    |
-| `styles/`    | `_mixins.scss` (Farben, Mixins), `base.scss` (Typografie, Schließen-Knopf, Float, Reduced Motion)                                            |
+| Ebene                   | Inhalt                                                                                                                                       |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `components/atoms/`     | Button (`VlButton`), Field (`VlInput`, `VlSelect`), Check, Radio, Switch, Slider, Link, Tag, Tooltip, Image, Progress, IconButton, SegToggle |
+| `components/molecules/` | Alert, Breadcrumb (`VlCrumbs`), Pagination, Tabs, Accordion, Popover, Card, Media                                                            |
+| `components/organism/`  | Header, Footer, Hero, Carousel, Overlay (Modal/Drawer)                                                                                       |
+| `components/layout/`    | `ThemeProvider`, Grid (`GridContainer`, `GridRow`, `GridCol`, `GridCell`), Decor (Hintergrund-Dekor)                                         |
+| `lib/`                  | `types` (Theme, Variant), `cx`, `ThemeClassContext`, `useFloat`, `focus`, `pad2`, `tones`                                                    |
+| `styles/`               | `_mixins.scss` (Farben, Mixins), `base.scss` (Typografie, Schließen-Knopf, Float, Reduced Motion)                                            |
 
 Nur für die Demo (kann im neuen Projekt weg): `Demo.tsx` (die komplette Demo-Seite, zugleich Vorlage für Beispielaufrufe aller Komponenten), `lib/demo.ts`, `lib/decor.ts`, `styles/demo.scss`. `Demo.tsx` hat keine App-Abhängigkeiten, sie wird mit `<Demo />` gerendert.
 
@@ -53,8 +53,8 @@ Kein Katalog-Code nutzt Michroma, Orbitron o. ä. Diese Schriften gehören zur r
 2. Komponenten direkt importieren, deren `.scss` ist mit eingebunden.
 
 ```tsx
-import { ThemeProvider } from "./katalog/layout/ThemeProvider/ThemeProvider";
-import { VlButton } from "./katalog/atoms/Button/Button";
+import { ThemeProvider } from "./katalog/components/layout/ThemeProvider/ThemeProvider";
+import { VlButton } from "./katalog/components/atoms/Button/Button";
 
 export function App() {
   return (
@@ -209,7 +209,7 @@ Die zugehörigen Klassen (`.vl-section`, `.vl-grid`, `.vl-col`) stehen in `style
 
 ### Alert
 
-`VlAlert` (`molecules/Alert/Alert.tsx`) hat die Props `tone` (`"info" | "success" | "warn"`), `title`, `children`, `onClose?`, `live?` und `extra?`.
+`VlAlert` (`components/molecules/Alert/Alert.tsx`) hat die Props `tone` (`"info" | "success" | "warn"`), `title`, `children`, `onClose?`, `live?` und `extra?`.
 
 - `onClose`: zeigt den Schließen-Knopf (`.vl-x`). Der Alert blendet sich nicht selbst aus, der Zustand liegt beim Aufrufer.
 - `live`: Standard `true`, setzt `role="alert"` (bei `warn`) bzw. `role="status"`. Im Toast-Host `false`, weil dort der Container (`aria-live="polite"`) ansagt.
@@ -257,7 +257,7 @@ function AlertDemo() {
 
 ### Toast
 
-Es gibt keine Toast-Komponente, ein Toast ist ein `VlAlert` in einem Portal-Host. Das CSS dafür liegt bereits im Katalog in `molecules/Alert/Alert.scss`:
+Es gibt keine Toast-Komponente, ein Toast ist ein `VlAlert` in einem Portal-Host. Das CSS dafür liegt bereits im Katalog in `components/molecules/Alert/Alert.scss`:
 
 - `@keyframes vl-timer`: Balken von `scaleX(1)` auf `scaleX(0)`.
 - `.vl-alert__timer`: der Balken, Dauer wird inline per `animationDuration` gesetzt.

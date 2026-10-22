@@ -1,5 +1,5 @@
 import { useId } from "react";
-import type { SimpleVariant } from "../../lib/types";
+import type { SimpleVariant } from "../../../lib/types";
 import { VlCheck } from "../Check/Check";
 import "./Radio.scss";
 

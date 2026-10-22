@@ -11,9 +11,9 @@ import {
   useDragControls,
   useReducedMotion,
 } from "framer-motion";
-import { FOCUSABLE } from "../../lib/focus";
-import { cx } from "../../lib/cx";
-import { ThemeClassContext } from "../../lib/ThemeClassContext";
+import { FOCUSABLE } from "../../../lib/focus";
+import { cx } from "../../../lib/cx";
+import { ThemeClassContext } from "../../../lib/ThemeClassContext";
 import "./Overlay.scss";
 
 type Placement = "center" | "right" | "bottom";

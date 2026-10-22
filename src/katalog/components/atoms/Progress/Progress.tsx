@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
-import type { SimpleVariant } from "../../lib/types";
-import { cx } from "../../lib/cx";
+import type { SimpleVariant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
 import "./Progress.scss";
 
 export function VlProgress({

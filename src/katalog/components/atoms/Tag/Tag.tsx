@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
-import type { Variant } from "../../lib/types";
-import { cx } from "../../lib/cx";
+import type { Variant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
 import "./Tag.scss";
 
 type TagKind = "badge" | "tag" | "chip";

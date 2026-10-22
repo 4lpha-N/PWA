@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
 import type { ReactNode } from "react";
-import type { SimpleVariant } from "../../lib/types";
-import { cx } from "../../lib/cx";
+import type { SimpleVariant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
 import "./Accordion.scss";
 
 export interface AccordionItem {

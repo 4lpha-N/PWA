@@ -1,5 +1,5 @@
-import type { SimpleVariant } from "../../lib/types";
-import { cx } from "../../lib/cx";
+import type { SimpleVariant } from "../../../lib/types";
+import { cx } from "../../../lib/cx";
 import "./Check.scss";
 
 export function VlCheck({
